@@ -1,84 +1,81 @@
-﻿@* _AdminLayout.cshtml *@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - Admin Panel</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-    <style>
-        body {
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-
-        .offcanvas-start {
-            width: 250px;
-        }
-    </style>
-
 </head>
 <body>
 
     <!-- Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-                <i class="fas fa-bars"></i>
+            <a class="navbar-brand" href="#">Elite Sports Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar" aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand ms-3" href="#">Admin Panel</a>
         </div>
     </nav>
 
-    <!-- Side Drawer -->
-    <div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarLabel">Navigation</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body p-0">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <a class="nav-link" asp-controller="Dashboard" asp-action="AdminDashboard">
-                        <i class="fas fa-home"></i> Dashboard
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a class="nav-link" href="Users">
-                        <i class="fas fa-users"></i> Manage Users
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a class="nav-link" href="Settings">
-                        <i class="fas fa-cog"></i> Settings
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link text-danger p-0">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </li>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <!-- Sidebar -->
+            <div class="col-12 col-md-3 col-lg-2 bg-light p-3">
+                <div class="d-md-block">
+                    <h5 class="text-center">Admin Panel</h5>
+                    <hr />
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">
+                                <i class="fas fa-users"></i> Manage Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="ManageClasses">
+                                <i class="fas fa-running"></i> Manage Classes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Settings">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <form method="post" asp-controller="Account" asp-action="Logout">
+                                <button type="submit" class="btn btn-outline-danger w-100">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-            </ul>
+            <!-- Main Content -->
+            <main class="col px-4 py-3">
+                <h2 class="mb-4">@ViewData["Title"]</h2>
+                @RenderBody()
+            </main>
         </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container mt-4">
-        @RenderBody()
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

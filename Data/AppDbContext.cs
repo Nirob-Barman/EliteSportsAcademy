@@ -20,13 +20,25 @@ namespace EliteSportsAcademy.Data
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole
                 {
-                    Id = "1", // static ID, or use Guid.NewGuid().ToString() if preferred
+                    Id = "1",
+                    Name = "SuperAdmin",
+                    NormalizedName = "SUPERADMIN"
+                },
+                new IdentityRole
+                {
+                    Id = "2", // static ID, or use Guid.NewGuid().ToString() if preferred
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 },
                 new IdentityRole
                 {
-                    Id = "2",
+                    Id = "3",
+                    Name = "Instructor",
+                    NormalizedName = "INSTRUCTOR"
+                },
+                new IdentityRole
+                {
+                    Id = "4",
                     Name = "User",
                     NormalizedName = "USER"
                 }

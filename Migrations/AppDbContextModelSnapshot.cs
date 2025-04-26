@@ -52,12 +52,24 @@ namespace EliteSportsAcademy.Migrations
                         new
                         {
                             Id = "1",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2",
+                            Id = "3",
+                            Name = "Instructor",
+                            NormalizedName = "INSTRUCTOR"
+                        },
+                        new
+                        {
+                            Id = "4",
                             Name = "User",
                             NormalizedName = "USER"
                         });
