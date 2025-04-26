@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+    var path = Context.Request.Path.ToString().ToLower();
+    var isErrorPage = path.Contains("/error") || path.Contains("/notfound");
+}
+
+@if (!isErrorPage)
+{
+    @await Html.PartialAsync("Home/_Banner")
+    @await Html.PartialAsync("Home/_Slider")
+    @await Html.PartialAsync("Home/_EventCalendar")
+    @await Html.PartialAsync("Home/_Testimonials")
+    @* @await Html.PartialAsync("Home/_NewsAndUpdates") *@
+    @await Html.PartialAsync("Home/_SocialMediaIntegration")
+    @await Html.PartialAsync("Home/_ContactAndSupport")
+}

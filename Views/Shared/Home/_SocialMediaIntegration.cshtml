@@ -1,0 +1,65 @@
+﻿@{
+    // Fake social media data (hardcoded)
+    var socialMediaData = new[]
+    {
+        new
+        {
+            Id = 1,
+            Platform = "Twitter",
+            Username = "elite_sport_academy",
+            Followers = 12000,
+            IconClass = "fab fa-twitter text-primary"
+        },
+        new
+        {
+            Id = 2,
+            Platform = "Facebook",
+            Username = "elite.sport.academy",
+            Followers = 24000,
+            IconClass = "fab fa-facebook text-primary"
+        },
+        new
+        {
+            Id = 3,
+            Platform = "Instagram",
+            Username = "elite_sport_academy",
+            Followers = 35000,
+            IconClass = "fab fa-instagram text-danger"
+        },
+        new
+        {
+            Id = 4,
+            Platform = "LinkedIn",
+            Username = "elite-sport-academy",
+            Followers = 5000,
+            IconClass = "fab fa-linkedin text-primary"
+        }
+    };
+}
+
+<div class="bg-light py-5">
+    <div class="container mt-5">
+        <div class="row g-4">
+            @foreach (var socialMedia in socialMediaData)
+            {
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card shadow-sm h-100 transition-transform hover-translate-y-neg-1">
+                        <div class="card-body d-flex align-items-center">
+                            <!-- Social Media Icon -->
+                            <div class="mr-3">
+                                <i class="@socialMedia.IconClass fa-2x"></i>
+                            </div>
+
+                            <!-- Social Media Details -->
+                            <div>
+                                <h4 class="card-title font-weight-bold">@socialMedia.Platform</h4>
+                                <p class="card-text text-muted">@socialMedia.Username</p>
+                                <p class="card-text text-muted">@socialMedia.Followers followers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

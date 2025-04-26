@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+@{
+    ViewData["Title"] = "Page Not Found";
+}
+
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Main Heading -->
+            <h1 class="display-1 fw-bold text-primary">404</h1>
+            <h2 class="text-danger mb-4">Oops! Page Not Found</h2>
+
+            <!-- Description -->
+            <p class="lead mb-4">
+                The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+
+            <!-- Call-to-Action Button -->
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5">
+                Return to Home
+            </a>
+        </div>
+    </div>
+</div>

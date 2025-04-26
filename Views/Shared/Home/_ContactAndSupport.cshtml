@@ -1,0 +1,49 @@
+﻿@{
+    // Fake contact information (hardcoded)
+    var contactInfo = new
+    {
+        Address = "123 Main Street, City, Country",
+        Phone = "+1 123 456 7890",
+        Email = "info@elitesportsacademy.com"
+    };
+}
+
+<div class="bg-light py-5">
+    <div class="container">
+        <!-- Heading -->
+        <h2 class="text-center text-3xl font-weight-bold mb-5">Contact and Support</h2>
+
+        <!-- Contact Cards -->
+        <div class="row justify-content-center g-4">
+            <!-- Address Card -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card shadow-sm h-100 transition-transform hover-translate-y-neg-1">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-lg font-weight-bold mb-3">Address</h3>
+                        <p class="card-text">@contactInfo.Address</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Card -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card shadow-sm h-100 transition-transform hover-translate-y-neg-1">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-lg font-weight-bold mb-3">Phone</h3>
+                        <p class="card-text">@contactInfo.Phone</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Card -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card shadow-sm h-100 transition-transform hover-translate-y-neg-1">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-lg font-weight-bold mb-3">Email</h3>
+                        <p class="card-text">@contactInfo.Email</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿@{
+    // Fake testimonial data (hardcoded)
+    var testimonials = new[]
+    {
+        new
+        {
+            Id = 1,
+            Name = "John Doe",
+            Position = "Professional Athlete",
+            Quote = "The training at this academy is unparalleled. It has helped me push my limits and achieve new heights in my career."
+        },
+        new
+        {
+            Id = 2,
+            Name = "Jane Smith",
+            Position = "Parent of an Athlete",
+            Quote = "My child has shown remarkable progress since joining this academy. The coaches are knowledgeable and provide excellent guidance."
+        },
+        new
+        {
+            Id = 3,
+            Name = "Michael Johnson",
+            Position = "Olympic Gold Medalist",
+            Quote = "I highly recommend this academy to aspiring athletes. They provide top-notch facilities and a supportive environment for growth."
+        }
+    };
+}
+
+<div class="bg-light py-5">
+    <div class="container">
+        <!-- Heading -->
+        <h2 class="text-center text-3xl font-weight-bold mb-5">Testimonials</h2>
+
+        <!-- Testimonial Cards -->
+        <div class="row g-4">
+            @foreach (var testimonial in testimonials)
+            {
+                <div class="col-sm-6 col-md-4">
+                    <div class="card shadow-sm h-100 transition-transform hover-translate-y-neg-1">
+                        <div class="card-body">
+                            <!-- Quote -->
+                            <p class="card-text text-muted mb-4">@testimonial.Quote</p>
+
+                            <!-- Author Details -->
+                            <div class="d-flex align-items-center">
+                                
+                                <div class="ml-3">
+                                    <div class="text-dark font-weight-bold">@testimonial.Name</div>
+                                    <div class="text-muted">@testimonial.Position</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

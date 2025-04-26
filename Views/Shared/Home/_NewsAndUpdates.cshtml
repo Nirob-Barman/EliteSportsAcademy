@@ -1,0 +1,74 @@
+﻿@{
+    // Fake news data (hardcoded)
+    var news = new[]
+    {
+        new
+        {
+            Id = 1,
+            Title = "New Training Program Launch",
+            Date = "2023-06-10",
+            Description = "We are excited to announce the launch of our new training program designed to enhance performance and skills. Join us to take your game to the next level!"
+        },
+        new
+        {
+            Id = 2,
+            Title = "Upcoming Sports Event",
+            Date = "2023-07-05",
+            Description = "Mark your calendars! We have an exciting sports event coming up where athletes from around the world will compete for glory. Don't miss the action!"
+        },
+        new
+        {
+            Id = 3,
+            Title = "Expansion of Facilities",
+            Date = "2023-08-20",
+            Description = "We are thrilled to announce the expansion of our facilities, including a new state-of-the-art gymnasium and upgraded training fields. More space, more opportunities!"
+        },
+        new
+        {
+            Id = 4,
+            Title = "New Nutrition Workshop",
+            Date = "2023-09-15",
+            Description = "Join our upcoming nutrition workshop to learn about proper fueling for athletes. Our experts will share valuable insights and tips for optimizing your performance."
+        },
+        new
+        {
+            Id = 5,
+            Title = "Featured Athlete of the Month",
+            Date = "2023-10-02",
+            Description = "We are proud to recognize John Davis, one of our exceptional athletes, for his outstanding achievements and dedication. Read his inspiring journey here."
+        },
+        new
+        {
+            Id = 6,
+            Title = "Sports Psychology Seminar",
+            Date = "2023-11-18",
+            Description = "Unlock your mental game! Attend our sports psychology seminar, where you will learn valuable techniques to enhance focus, resilience, and mental well-being."
+        }
+    };
+}
+
+<div class="bg-light py-5">
+    <div class="container">
+        <!-- Heading -->
+        <h2 class="text-center text-3xl font-weight-bold mb-5">News and Updates</h2>
+
+        <!-- News Items -->
+        <div class="space-y-6 md:space-y-8">
+            @foreach (var item in news)
+            {
+                <div class="bg-white rounded-lg shadow-sm p-6 transition-transform hover-translate-y-neg-1 hover-shadow-lg">
+                    <!-- Title -->
+                    <h3 class="text-lg font-weight-bold mb-3">@item.Title</h3>
+
+                    <!-- Date -->
+                    <p class="text-muted mb-2">
+                        Date: @DateTime.Parse(item.Date).ToString("MMMM d, yyyy")
+                    </p>
+
+                    <!-- Description -->
+                    <p class="text-muted">@item.Description</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
