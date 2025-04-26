@@ -1,8 +1,8 @@
-﻿@using EliteSportsAcademy.ViewModel.Account
-@model RegisterViewModel
+﻿@model EliteSportsAcademy.ViewModel.Account.RegisterViewModel
 
 @{
     ViewData["Title"] = "Sign Up";
+    Layout = "~/Views/Shared/Account/_AuthLayout.cshtml";
 }
 
 <div class="container mt-5">
@@ -26,7 +26,7 @@
             </div>
 
             <!-- Username -->
-            <div class="mb-3">
+            <div class="col-md-6">
                 <label asp-for="Username" class="form-label"></label>
                 <input asp-for="Username" class="form-control" placeholder="Enter your username" />
                 <span asp-validation-for="Username" class="text-danger"></span>
@@ -100,13 +100,12 @@
             <button type="submit" class="btn btn-primary w-50">Sign Up</button>
         </div>
 
-        <!-- Social Login -->
-        <div class="mt-5 text-center">
-            <h5 class="text-secondary">Social Login</h5>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook"></i> Facebook</a>
-                <a href="#" class="btn btn-outline-danger"><i class="fab fa-google"></i> Google</a>
-            </div>
+        <!-- Already have an account -->
+        <div class="text-center mt-4">
+            <p class="small text-muted">
+                Already have an account?
+                <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
+            </p>
         </div>
     </form>
 </div>

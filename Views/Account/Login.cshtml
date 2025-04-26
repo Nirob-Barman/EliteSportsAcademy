@@ -2,57 +2,87 @@
 
 @{
     ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/Account/_AuthLayout.cshtml";
 }
 
-<div class="relative flex flex-col items-center justify-center h-screen overflow-hidden">
-    <div class="w-full p-6 bg-white border-t-4 border-gray-600 rounded-md shadow-md border-top lg:max-w-lg">
-        <h1 class="text-3xl font-semibold text-center text-gray-700">Login Now!!!</h1>
-        <form asp-action="Login" asp-controller="Account" method="post" class="space-y-4">
-            @* <input type="hidden" asp-for="ReturnUrl" /> *@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Welcome Back!</h2>
+                    <form asp-action="Login" asp-controller="Account" method="post">
+                        @* <input type="hidden" asp-for="ReturnUrl" /> *@
 
-            <!-- Email -->
-            <div>
-                <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
-                <input asp-for="Email" placeholder="Email Address" class="w-full input input-bordered" />
-                <span asp-validation-for="Email" class="text-red-500 text-xs mt-1"></span>
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" placeholder="Enter your email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" placeholder="Enter your password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Remember Me -->
+                        <div class="mb-3 form-check">
+                            <input asp-for="RememberMe" class="form-check-input" />
+                            <label asp-for="RememberMe" class="form-check-label"></label>
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+
+                        <!-- Forgot Password -->
+                        <div class="text-center mt-3">
+                            <a href="#" class="small text-muted">Forgot your password?</a>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="text-center my-3">
+                            <span class="text-muted">or</span>
+                        </div>
+
+                        <!-- Social Login -->
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="btn btn-outline-primary" onclick="showDevelopmentAlert(event, 'Facebook')"><i class="fab fa-facebook"></i> Facebook</a>
+                            <a href="#" class="btn btn-outline-danger" onclick="showDevelopmentAlert(event, 'Google')"><i class="fab fa-google"></i> Google</a>
+                        </div>
+
+                        <!-- Register -->
+                        <div class="text-center mt-4">
+                            <p class="small text-muted">
+                                Don't have an account?
+                                <a asp-action="Register" asp-controller="Account" class="text-decoration-none">Sign Up</a>
+                            </p>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-
-            <!-- Password -->
-            <div>
-                <label asp-for="Password" class="block text-sm font-medium text-gray-700"></label>
-                <input asp-for="Password" placeholder="Enter Password" class="w-full input input-bordered" />
-                <span asp-validation-for="Password" class="text-red-500 text-xs mt-1"></span>
-            </div>
-
-            <!-- Remember Me -->
-            <div class="flex justify-between items-center">
-                <label asp-for="RememberMe" class="inline-flex items-center">
-                    <input asp-for="RememberMe" type="checkbox" class="form-checkbox h-4 w-4 text-blue-600" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me?</span>
-                </label>
-
-                <a href="#" class="text-xs text-gray-600 hover:underline hover:text-blue-600">Forget Password?</a>
-            </div>
-
-            <!-- Submit Button -->
-            <div>
-                <button type="submit" class="btn btn-block btn-primary w-full">Login</button>
-            </div>
-        </form>
-
-        <div class="mt-4 text-center">
-            <p class="text-xs text-gray-600">
-                New Here?
-                <a asp-action="Register" asp-controller="Account" class="hover:underline hover:text-blue-600">Create an account</a>
-            </p>
-        </div>
-
-        <div class="mt-5 text-2xl font-semibold text-center text-gray-700">
-            Social Login
-        </div>
-        <div class="flex justify-center gap-3 mt-2">
-            <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#" class="btn btn-outline-danger"><i class="fab fa-google"></i> Google</a>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function showDevelopmentAlert(e, platform) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'info',
+                title: 'Coming Soon!',
+                // text: '⚙️ Social login is under development.',
+                text: '⚙️ ' + platform + ' login is under development.',
+                confirmButtonText: 'Okay',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+    </script>
+}
+
