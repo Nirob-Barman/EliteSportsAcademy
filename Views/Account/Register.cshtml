@@ -1,0 +1,112 @@
+﻿@using EliteSportsAcademy.ViewModel.Account
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Sign Up</h1>
+    </div>
+    <form id="registerForm" asp-action="Register" asp-controller="Account" method="post" class="space-y-4">
+        <div class="row g-3">
+            <!-- First Name -->
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <!-- Last Name -->
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Username" class="form-control" placeholder="Enter your username" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+                <small class="text-danger"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"
+                       required minlength="6" pattern="^(?=.*[A-Z])(?=.*\W).*$" />
+                <small class="text-muted">Password must be at least 6 characters long and include one capital letter and one special character.</small>
+                <small class="text-danger"></small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="col-md-6">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password"
+                       required />
+                <small class="text-danger"></small>
+            </div>
+
+            <!-- Photo URL -->
+            <div class="col-md-6">
+                <label for="photoURL" class="form-label">Photo URL</label>
+                <input type="url" class="form-control" id="photoURL" name="photoURL" placeholder="Enter photo URL" />
+                <small class="text-danger"></small>
+            </div>
+
+            <!-- Gender -->
+            <div class="col-md-6">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="col-md-6">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required />
+                <small class="text-danger"></small>
+            </div>
+
+            <!-- Address -->
+            <div class="col-md-6">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="2" placeholder="Enter address" required></textarea>
+                <small class="text-danger"></small>
+            </div>
+
+            <!-- Agreement Checkbox -->
+            <div class="mb-3 form-check">
+                <input asp-for="IsAgree" class="form-check-input" />
+                <label asp-for="IsAgree" class="form-check-label"></label>
+                <span asp-validation-for="IsAgree" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary w-50">Sign Up</button>
+        </div>
+
+        <!-- Social Login -->
+        <div class="mt-5 text-center">
+            <h5 class="text-secondary">Social Login</h5>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="btn btn-outline-danger"><i class="fab fa-google"></i> Google</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,7 +1,20 @@
+using EliteSportsAcademy.Data;
+using EliteSportsAcademy.Models.Account;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext>(Options =>
+{
+    Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -14,14 +27,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseStatusCodePagesWithReExecute("/Home/NotFound/{0}");
-    app.UseHsts();
-    //app.UseDeveloperExceptionPage();
-}
+app.UseExceptionHandler("/Home/Error");
+// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+app.UseStatusCodePagesWithReExecute("/Home/NotFound/{0}");
+app.UseHsts();
+//app.UseDeveloperExceptionPage();
+
 
 //if (!app.Environment.IsDevelopment())
 //{

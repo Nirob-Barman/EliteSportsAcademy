@@ -19,19 +19,37 @@
             }
 
             <!-- Additional Information -->
-            <div class="alert alert-info mt-4" role="alert">
-                <h5 class="alert-heading">Development Mode</h5>
-                <p>
-                    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-                </p>
-                <hr>
-                <p class="mb-0">
-                    <strong>Note:</strong> The Development environment shouldn't be enabled for deployed applications. It can result in displaying sensitive information from exceptions to end users.
-                </p>
-                <p>
-                    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong> and restarting the app.
-                </p>
-            </div>
+            @if (Context.Request.Host.Value.Contains("localhost"))
+            {
+                <div class="alert alert-danger mt-4" role="alert">
+                    <h5 class="alert-heading">Detailed Error Information</h5>
+                    <p>
+                        <strong>Exception Type:</strong> @ViewBag.ExceptionType
+                    </p>
+                    <p>
+                        <strong>Message:</strong> @ViewBag.ExceptionMessage
+                    </p>
+                    <p>
+                        <strong>Stack Trace:</strong> @ViewBag.ExceptionStackTrace
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info mt-4" role="alert">
+                    <h5 class="alert-heading">Development Mode</h5>
+                    <p>
+                        Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+                    </p>
+                    <hr>
+                    <p class="mb-0">
+                        <strong>Note:</strong> The Development environment shouldn't be enabled for deployed applications. It can result in displaying sensitive information from exceptions to end users.
+                    </p>
+                    <p>
+                        For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong> and restarting the app.
+                    </p>
+                </div>
+            }
 
             <!-- Call-to-Action Button -->
             <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5 mt-4">

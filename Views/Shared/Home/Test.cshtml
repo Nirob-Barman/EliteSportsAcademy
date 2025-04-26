@@ -52,7 +52,7 @@
             </ul>
 
             <!-- User Authentication Section -->
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity!.IsAuthenticated)
             {
                 <div class="d-flex align-items-center">
                     <span class="text-dark me-3">@User.Identity.Name</span>

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using EliteSportsAcademy.Models;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EliteSportsAcademy.Controllers
@@ -29,12 +30,30 @@ namespace EliteSportsAcademy.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var errorViewModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            // Pass exception details in Development environment
+            if (HttpContext.Request.Host.Value.Contains("localhost"))
+            {
+                var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+                if (exceptionHandlerPathFeature?.Error != null)
+                {
+                    ViewBag.ExceptionType = exceptionHandlerPathFeature.Error.GetType().Name;
+                    ViewBag.ExceptionMessage = exceptionHandlerPathFeature.Error.Message;
+                    ViewBag.ExceptionStackTrace = exceptionHandlerPathFeature.Error.StackTrace;
+                }
+            }
+
+            return View(errorViewModel);
+            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult NotFound()
         {
-            _logger.LogWarning("404 Not Found: {Path}", HttpContext.Request.Path);
+            //_logger.LogWarning("404 Not Found: {Path}", HttpContext.Request.Path);
             return View(); // Returns the NotFound.cshtml view
         }
     }
