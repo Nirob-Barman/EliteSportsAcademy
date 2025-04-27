@@ -1,0 +1,59 @@
+﻿@model List<EliteSportsAcademy.ViewModel.Instructor.ClassViewModel>
+
+@{
+    ViewData["Title"] = "My Classes";
+    Layout = "~/Views/Shared/DashBoard/_InstructorLayout.cshtml"; // Instructor Layout
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4 text-primary text-center">My Classes</h2>
+
+            @if (Model.Count == 0)
+            {
+                <div class="alert alert-info text-center">
+                    You haven't added any classes yet.
+                </div>
+            }
+            else
+            {
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <img src="@item.ClassImage" class="card-img-top" alt="Class Image" style="height:200px; object-fit:cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">@item.ClassName</h5>
+                                    <p class="card-text mb-1"><strong>Available Seats:</strong> @item.AvailableSeats</p>
+                                    <p class="card-text mb-1"><strong>Price:</strong> $@item.Price</p>
+                                    <p class="card-text"><strong>Instructor:</strong> @item.InstructorName</p>
+                                    <p class="card-text">
+                                        <strong>Status:</strong>
+                                        @if (item.Status == "approved")
+                                        {
+                                            <span class="badge bg-success">Approved</span>
+                                        }
+                                        else if (item.Status == "denied")
+                                        {
+                                            <span class="badge bg-danger">Denied</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">Pending</span>
+                                        }
+                                    </p>
+                                    @if (item.Feedback != null)
+                                    {
+                                        <p class="card-text"><strong>Feedback:</strong> @item.Feedback</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

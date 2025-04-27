@@ -57,5 +57,40 @@ namespace EliteSportsAcademy.Controllers
             // If validation fails, redisplay the form
             return View(model);
         }
+
+        // GET: View My Classes
+        [HttpGet]
+        public IActionResult MyClasses()
+        {
+            // Find the current instructor's email
+            var instructorEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrEmpty(instructorEmail))
+            {
+                return RedirectToAction("Dashboard");
+            }
+
+            // Fetch classes where InstructorEmail matches
+            var myClasses = _context.classes
+                .Where(c => c.InstructorEmail == instructorEmail)
+                .Select(c => new ClassViewModel
+                {
+                    ClassName = c.ClassName,
+                    ClassImage = c.ClassImage,
+                    InstructorName = c.InstructorName,
+                    InstructorEmail = c.InstructorEmail,
+                    AvailableSeats = c.AvailableSeats,
+                    Price = c.Price,
+                    Status = c.Status,
+                    Feedback = c.Feedback
+                })
+                .ToList();
+
+            return View(myClasses);
+        }
+
+
+
+
     }
 }

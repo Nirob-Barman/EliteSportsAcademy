@@ -1,6 +1,6 @@
-﻿namespace EliteSportsAcademy.Models.Instructor
+﻿namespace EliteSportsAcademy.ViewModel.Account
 {
-    public class Class
+    public class ManageClassesViewModel
     {
         public int Id { get; set; }
         public string? ClassName { get; set; }
@@ -9,7 +9,6 @@
         public string? InstructorEmail { get; set; }
         public int AvailableSeats { get; set; }
         public decimal Price { get; set; }
-        public string? Status { get; set; } = "pending";
-        public string? Feedback { get; set; }
+        public string? Status { get; set; }
     }
 }

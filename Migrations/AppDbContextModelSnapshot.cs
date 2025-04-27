@@ -39,6 +39,9 @@ namespace EliteSportsAcademy.Migrations
                     b.Property<string>("ClassName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Feedback")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("InstructorEmail")
                         .HasColumnType("nvarchar(max)");
 
@@ -47,6 +50,9 @@ namespace EliteSportsAcademy.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -1,8 +1,10 @@
-﻿using EliteSportsAcademy.Models.Account;
+﻿using EliteSportsAcademy.Data;
+using EliteSportsAcademy.Models.Account;
 using EliteSportsAcademy.ViewModel.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EliteSportsAcademy.Controllers
 {
@@ -11,11 +13,13 @@ namespace EliteSportsAcademy.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly AppDbContext _context;
 
-        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public IActionResult Dashboard()
@@ -79,6 +83,57 @@ namespace EliteSportsAcademy.Controllers
 
             TempData["Success"] = "User role updated successfully!";
             return RedirectToAction(nameof(ManageUsers));
+        }
+
+        public async Task<IActionResult> ManageClasses()
+        {
+            var classes = await _context.classes
+                .Select(c => new ManageClassesViewModel
+                {
+                    Id = c.Id,
+                    ClassName = c.ClassName,
+                    ClassImage = c.ClassImage,
+                    InstructorName = c.InstructorName,
+                    InstructorEmail = c.InstructorEmail,
+                    AvailableSeats = c.AvailableSeats,
+                    Price = c.Price,
+                    Status = c.Status
+                })
+                .ToListAsync();
+
+            return View(classes);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeClassStatus(int id, string status)
+        {
+            var classItem = await _context.classes.FindAsync(id);
+            if (classItem == null)
+            {
+                return NotFound();
+            }
+
+            classItem.Status = status;
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Class status updated!";
+            return RedirectToAction(nameof(ManageClasses));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendFeedback(int id, string feedback)
+        {
+            var classItem = await _context.classes.FindAsync(id);
+            if (classItem == null)
+            {
+                return NotFound();
+            }
+
+            classItem.Feedback = feedback;
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Feedback sent successfully!";
+            return RedirectToAction(nameof(ManageClasses));
         }
 
 
