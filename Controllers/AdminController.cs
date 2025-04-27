@@ -97,7 +97,8 @@ namespace EliteSportsAcademy.Controllers
                     InstructorEmail = c.InstructorEmail,
                     AvailableSeats = c.AvailableSeats,
                     Price = c.Price,
-                    Status = c.Status
+                    Status = c.Status,
+                    Feedback = c.Feedback,
                 })
                 .ToListAsync();
 

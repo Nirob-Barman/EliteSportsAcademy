@@ -54,7 +54,13 @@
                         </form>
 
                         <!-- Feedback Modal Button -->
-                        <button type="button" class="btn btn-warning btn-sm" onclick="openFeedbackModal(@cls.Id)">Feedback</button>
+                        <button type="button" 
+                            class="btn btn-warning btn-sm" 
+                            data-id="@cls.Id" 
+                            data-feedback="@cls.Feedback"
+                            onclick="openFeedbackModalFromButton(this)">
+                            Feedback
+                        </button>
                     </td>
                 </tr>
             }
@@ -87,13 +93,14 @@
 
 @section Scripts {
     <script>
-        function openFeedbackModal(id) {
-            // Set the class ID in the hidden input
-            document.getElementById('feedbackClassId').value = id;
-
-            // Initialize the modal using Bootstrap's modal method
-            var feedbackModal = new bootstrap.Modal(document.getElementById('feedbackModal'));
-            feedbackModal.show(); // Show the modal with fade effect
+        function openFeedbackModalFromButton(button) {
+            var feedbackButton = $(button);
+            var id = feedbackButton.data('id');
+            var feedback = feedbackButton.data('feedback');
+            
+            $('#feedbackClassId').val(id);
+            $('textarea[name="feedback"]').val(feedback || '');
+            $('#feedbackModal').modal('show');
         }
     </script>
 }

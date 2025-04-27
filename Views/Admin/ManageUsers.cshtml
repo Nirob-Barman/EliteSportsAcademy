@@ -11,14 +11,14 @@
 <div class="container mt-5">
     @* <h2>Manage Users</h2> *@
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">@TempData["Error"]</div>
-    }
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">@TempData["Success"]</div>
-    }
+    @* @if (TempData["Error"] != null) *@
+    @* { *@
+    @*     <div class="alert alert-danger">@TempData["Error"]</div> *@
+    @* } *@
+    @* @if (TempData["Success"] != null) *@
+    @* { *@
+    @*     <div class="alert alert-success">@TempData["Success"]</div> *@
+    @* } *@
 
     <table class="table table-striped mt-4">
         <thead class="table-dark">
@@ -63,19 +63,62 @@
 
 @section Scripts {
     <script>
-        // Wait for the page to load
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // Find all alert divs
-            const alerts = document.querySelectorAll('.alert');
 
-            alerts.forEach(alert => {
-                setTimeout(() => {
-                    alert.classList.add('fade');
-                    setTimeout(() => {
-                        alert.remove(); // Remove from DOM after fading
-                    }, 500); // Wait for fade animation
-                }, 3000); // 3000ms = 3 seconds
-            });
+        // Wait for the page to load
+        // window.addEventListener('DOMContentLoaded', (event) => {
+        //     Find all alert divs
+        //     const alerts = document.querySelectorAll('.alert');
+
+        //     alerts.forEach(alert => {
+        //         setTimeout(() => {
+        //             alert.classList.add('fade');
+        //             setTimeout(() => {
+        //                 alert.remove(); Remove from DOM after fading
+        //             }, 500); Wait for fade animation
+        //         }, 3000); 3000ms = 3 seconds
+        //     });
+        // });
+
+
+        $(document).ready(function () {
+            // Find all alert divs
+            // $('.alert').each(function () {
+            //     var alert = $(this);
+            //     setTimeout(function () {
+            //         alert.fadeOut(500, function () {
+            //             $(this).remove(); Remove from DOM after fading out
+            //         });
+            //     }, 3000); 3 seconds
+            // });
+
+            var successMessage = '@TempData["Success"]';
+            var errorMessage = '@TempData["Error"]';
+
+            if (successMessage) {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: successMessage,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+
+            if (errorMessage) {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: errorMessage,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+
         });
+
     </script>
 }

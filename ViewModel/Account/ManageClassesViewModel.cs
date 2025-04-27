@@ -10,5 +10,6 @@
         public int AvailableSeats { get; set; }
         public decimal Price { get; set; }
         public string? Status { get; set; }
+        public string? Feedback { get; set; }
     }
 }
