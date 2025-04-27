@@ -1,4 +1,5 @@
 ﻿using EliteSportsAcademy.Models.Account;
+using EliteSportsAcademy.ViewModel.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,14 +26,21 @@ namespace EliteSportsAcademy.Controllers
         {
             var users = _userManager.Users.ToList();
             var roles = _roleManager.Roles.Where(r => r.Name != "SuperAdmin").ToList();
-            var userList = new List<(ApplicationUser User, IList<string> UserRoles)>();
+            //var userList = new List<(ApplicationUser User, IList<string> UserRoles)>();
+            var userList = new List<ManageUsersViewModel>();
 
             foreach (var user in users)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
                 if (!userRoles.Contains("Admin") && !userRoles.Contains("SuperAdmin"))
                 {
-                    userList.Add((user, userRoles));
+                    //userList.Add((user, userRoles));
+                    userList.Add(new ManageUsersViewModel
+                    {
+                        Id = user.Id,
+                        Email = user.Email!,
+                        Roles = userRoles.ToList()
+                    });
                 }
             }
 

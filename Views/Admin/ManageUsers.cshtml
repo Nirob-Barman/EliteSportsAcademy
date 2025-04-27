@@ -1,4 +1,6 @@
-﻿@model List<(EliteSportsAcademy.Models.Account.ApplicationUser User, IList<string> UserRoles)>
+﻿@* @model List<(EliteSportsAcademy.Models.Account.ApplicationUser User, IList<string> UserRoles)> *@
+@model List<EliteSportsAcademy.ViewModel.Account.ManageUsersViewModel>
+
 
 @{
     Layout = "~/Views/Shared/DashBoard/_AdminLayout.cshtml";
@@ -28,11 +30,13 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var (user, userRoles) in Model)
+        @* @foreach (var (user, userRoles) in Model) *@
+        @foreach (var user in Model)
         {
             <tr>
                 <td>@user.Email</td>
-                <td>@(userRoles.FirstOrDefault() ?? "No Role")</td>
+                @* <td>@(userRoles.FirstOrDefault() ?? "No Role")</td> *@
+                <td>@(user.Roles!.FirstOrDefault() ?? "No Role")</td>
                 <td>
                     <form asp-action="ChangeUserRole" asp-controller="Admin" method="post" class="d-flex gap-2">
                         <input type="hidden" name="userId" value="@user.Id" />
