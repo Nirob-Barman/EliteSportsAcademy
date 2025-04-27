@@ -1,7 +1,9 @@
 ﻿using EliteSportsAcademy.Models.Account;
 using EliteSportsAcademy.ViewModel.Account;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EliteSportsAcademy.Controllers
 {
@@ -94,6 +96,15 @@ namespace EliteSportsAcademy.Controllers
 
                         if (result.Succeeded)
                         {
+                            var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
+                            var identity = (ClaimsIdentity)userPrincipal.Identity!;
+                            // Check if email claim already exists
+                            if (!identity.HasClaim(c => c.Type == ClaimTypes.Email))
+                            {
+                                identity.AddClaim(new Claim(ClaimTypes.Email, user.Email ?? ""));
+                            }
+
+                            await _signInManager.Context.SignInAsync(IdentityConstants.ApplicationScheme, userPrincipal);
                             // Redirect to the home page or the intended page
                             return RedirectToAction("Index", "Home");
                         }

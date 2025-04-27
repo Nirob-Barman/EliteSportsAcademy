@@ -1,31 +1,77 @@
-﻿@model IEnumerable<EliteSportsAcademy.Models.Account.ApplicationUser>
-
+﻿@model List<(EliteSportsAcademy.Models.Account.ApplicationUser User, IList<string> UserRoles)>
 
 @{
     Layout = "~/Views/Shared/DashBoard/_AdminLayout.cshtml";
     ViewData["Title"] = "Manage Users";
+    var roles = ViewBag.Roles as List<Microsoft.AspNetCore.Identity.IdentityRole>;
 }
 
-<h2>Manage Users</h2>
+<div class="container mt-5">
+    @* <h2>Manage Users</h2> *@
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Username</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table table-striped mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Email</th>
+                <th>Current Role</th>
+                <th>Change Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var (user, userRoles) in Model)
         {
             <tr>
                 <td>@user.Email</td>
-                <td>@user.UserName</td>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
+                <td>@(userRoles.FirstOrDefault() ?? "No Role")</td>
+                <td>
+                    <form asp-action="ChangeUserRole" asp-controller="Admin" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="userId" value="@user.Id" />
+                        <select class="form-select" name="newRole" required>
+                            <option disabled selected>Select Role</option>
+                            @foreach (var role in roles!)
+                            {
+                                <option value="@role.Name">@role.Name</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-primary">Change</button>
+                    </form>
+                </td>
+                <td>
+                    <!-- Optionally: Add Delete, Block, View Profile buttons here -->
+                </td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // Wait for the page to load
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Find all alert divs
+            const alerts = document.querySelectorAll('.alert');
+
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.classList.add('fade');
+                    setTimeout(() => {
+                        alert.remove(); // Remove from DOM after fading
+                    }, 500); // Wait for fade animation
+                }, 3000); // 3000ms = 3 seconds
+            });
+        });
+    </script>
+}

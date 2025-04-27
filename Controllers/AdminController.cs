@@ -9,10 +9,12 @@ namespace EliteSportsAcademy.Controllers
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(UserManager<ApplicationUser> userManager)
+        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Dashboard()
@@ -22,17 +24,20 @@ namespace EliteSportsAcademy.Controllers
         public async Task<IActionResult> ManageUsers()
         {
             var users = _userManager.Users.ToList();
-            var filteredUsers = new List<ApplicationUser>();
+            var roles = _roleManager.Roles.Where(r => r.Name != "SuperAdmin").ToList();
+            var userList = new List<(ApplicationUser User, IList<string> UserRoles)>();
 
             foreach (var user in users)
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                if (!roles.Contains("Admin") && !roles.Contains("SuperAdmin"))
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (!userRoles.Contains("Admin") && !userRoles.Contains("SuperAdmin"))
                 {
-                    filteredUsers.Add(user);
+                    userList.Add((user, userRoles));
                 }
             }
-            return View(filteredUsers);
+
+            ViewBag.Roles = roles;
+            return View(userList);
         }
 
 
@@ -40,30 +45,31 @@ namespace EliteSportsAcademy.Controllers
         public async Task<IActionResult> ChangeUserRole(string userId, string newRole)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
+            if (user == null || string.IsNullOrEmpty(newRole))
             {
-                return NotFound();
-            }
-
-            // Get current roles of the user
-            var currentRoles = await _userManager.GetRolesAsync(user);
-
-            // Remove the old roles (if any)
-            foreach (var role in currentRoles)
-            {
-                await _userManager.RemoveFromRoleAsync(user, role);
-            }
-
-            // Add the new role
-            var result = await _userManager.AddToRoleAsync(user, newRole);
-
-            if (result.Succeeded)
-            {
+                TempData["Error"] = "Invalid user or role.";
                 return RedirectToAction(nameof(ManageUsers));
             }
 
-            // If adding role failed, you can handle it here (optional)
-            TempData["Error"] = "Role change failed!";
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            // Remove all current roles
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            if (!removeResult.Succeeded)
+            {
+                TempData["Error"] = "Failed to remove current roles.";
+                return RedirectToAction(nameof(ManageUsers));
+            }
+
+            // Add the new role
+            var addResult = await _userManager.AddToRoleAsync(user, newRole);
+            if (!addResult.Succeeded)
+            {
+                TempData["Error"] = "Failed to assign new role.";
+                return RedirectToAction(nameof(ManageUsers));
+            }
+
+            TempData["Success"] = "User role updated successfully!";
             return RedirectToAction(nameof(ManageUsers));
         }
 

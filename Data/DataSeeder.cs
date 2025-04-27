@@ -10,8 +10,8 @@ namespace EliteSportsAcademy.Data
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            string superAdminEmail = "superadmin@elitesports.com";
-            string superAdminPassword = "@bul.789";
+            //string superAdminEmail = "superadmin@elitesports.com";
+            //string superAdminPassword = "@bul.789";
 
             string[] roles = { "SuperAdmin", "Admin", "Instructor", "User" };
 
@@ -26,27 +26,27 @@ namespace EliteSportsAcademy.Data
                 }
             }
 
-            // Check if user exists
-            var existingUser = await userManager.FindByEmailAsync(superAdminEmail);
-            if (existingUser == null)
-            {
-                var user = new ApplicationUser
-                {
-                    UserName = "superadmin",
-                    Email = superAdminEmail,
-                    FirstName = "Elite",
-                    LastName = "Admin",
-                    EmailConfirmed = true,
-                    IsAgree = true
-                };
+            //// Check if user exists
+            //var existingUser = await userManager.FindByEmailAsync(superAdminEmail);
+            //if (existingUser == null)
+            //{
+            //    var user = new ApplicationUser
+            //    {
+            //        UserName = "superadmin",
+            //        Email = superAdminEmail,
+            //        FirstName = "Elite",
+            //        LastName = "Admin",
+            //        EmailConfirmed = true,
+            //        IsAgree = true
+            //    };
 
-                var result = await userManager.CreateAsync(user, superAdminPassword);
+            //    var result = await userManager.CreateAsync(user, superAdminPassword);
 
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(user, "Admin");
-                }
-            }
+            //    if (result.Succeeded)
+            //    {
+            //        await userManager.AddToRoleAsync(user, "Admin");
+            //    }
+            //}
             // Seed SuperAdmin
             await CreateUserIfNotExists(userManager,email: "superadmin@elitesports.com",username: "superadmin",password: "Super@123",firstName: "Elite",lastName: "Super",role: "SuperAdmin");
             // Seed Admin

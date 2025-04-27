@@ -1,4 +1,5 @@
 ﻿using EliteSportsAcademy.Models.Account;
+using EliteSportsAcademy.Models.Instructor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace EliteSportsAcademy.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<ApplicationUser> applicationUsers { get; set; }
+        public DbSet<Class> classes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -1,0 +1,86 @@
+﻿@using System.Security.Claims
+@model EliteSportsAcademy.ViewModel.Instructor.ClassViewModel
+
+@{
+    ViewData["Title"] = "Add Class";
+    Layout = "~/Views/Shared/DashBoard/_InstructorLayout.cshtml"; // Instructor layout
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 text-primary">Add New Class</h2>
+
+                    <form asp-action="AddClass" asp-controller="Instructor" method="post" class="needs-validation" novalidate>
+                        <!-- Class Name -->
+                        <div class="mb-3">
+                            <label asp-for="ClassName" class="form-label">Class Name</label>
+                            <input asp-for="ClassName" class="form-control" placeholder="Enter class name" required />
+                            <div class="invalid-feedback">Please enter a class name.</div>
+                        </div>
+
+                        <!-- Class Image URL -->
+                        <div class="mb-3">
+                            <label asp-for="ClassImage" class="form-label">Class Image URL</label>
+                            <input asp-for="ClassImage" class="form-control" placeholder="Enter image URL" required />
+                            <div class="invalid-feedback">Please provide a class image URL.</div>
+                        </div>
+
+                        <!-- Instructor Name -->
+                        <div class="mb-3">
+                            <label asp-for="InstructorName" class="form-label">Instructor Name</label>
+                            <input asp-for="InstructorName" class="form-control" value="@User.Identity!.Name" readonly />
+                        </div>
+
+                        <!-- Instructor Email -->
+                        <div class="mb-3">
+                            <label asp-for="InstructorEmail" class="form-label">Instructor Email</label>
+                            <input asp-for="InstructorEmail" class="form-control" value="@User.FindFirst(ClaimTypes.Email)?.Value" readonly />
+                        </div>
+
+                        <!-- Available Seats -->
+                        <div class="mb-3">
+                            <label asp-for="AvailableSeats" class="form-label">Available Seats</label>
+                            <input asp-for="AvailableSeats" type="number" class="form-control" placeholder="Enter available seats" required min="1" />
+                            <div class="invalid-feedback">Please enter the number of available seats.</div>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label">Price</label>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="Enter price" required min="0" />
+                            <div class="invalid-feedback">Please enter a valid price.</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary">Add Class</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Bootstrap validation script
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+}

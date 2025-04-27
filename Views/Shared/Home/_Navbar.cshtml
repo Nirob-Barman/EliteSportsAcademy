@@ -26,10 +26,16 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Classes" asp-action="Index">Classes</a>
                 </li>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                    </li>
+                }
+                @if (User.IsInRole("Instructor"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Instructor" asp-action="Dashboard">Dashboard</a>
                     </li>
                 }
             </ul>
