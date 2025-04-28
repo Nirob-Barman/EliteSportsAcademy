@@ -10,8 +10,8 @@ namespace EliteSportsAcademy.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<ApplicationUser> applicationUsers { get; set; }
-        public DbSet<Class> classes { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Class> Classes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -41,8 +41,8 @@ namespace EliteSportsAcademy.Data
                 new IdentityRole
                 {
                     Id = "4",
-                    Name = "User",
-                    NormalizedName = "USER"
+                    Name = "Student",
+                    NormalizedName = "STUDENT"
                 }
             );
         }

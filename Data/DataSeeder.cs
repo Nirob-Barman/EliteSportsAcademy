@@ -13,7 +13,7 @@ namespace EliteSportsAcademy.Data
             //string superAdminEmail = "superadmin@elitesports.com";
             //string superAdminPassword = "@bul.789";
 
-            string[] roles = { "SuperAdmin", "Admin", "Instructor", "User" };
+            string[] roles = { "SuperAdmin", "Admin", "Instructor", "Student" };
 
             // Ensure roles exist (in case migration not run yet)
             //if (!await roleManager.RoleExistsAsync("Admin"))

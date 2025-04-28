@@ -38,6 +38,12 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Instructor" asp-action="Dashboard">Dashboard</a>
                     </li>
                 }
+                @if (User.IsInRole("Student"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Dashboard">Dashboard</a>
+                    </li>
+                }
             </ul>
 
             <!-- User Authentication Section -->

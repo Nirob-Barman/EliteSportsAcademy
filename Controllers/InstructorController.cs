@@ -46,7 +46,7 @@ namespace EliteSportsAcademy.Controllers
                 };
 
                 // Save to database
-                _context.classes.Add(newClass);
+                _context.Classes.Add(newClass);
                 await _context.SaveChangesAsync();
 
                 TempData["Success"] = "Class added successfully!";
@@ -71,7 +71,7 @@ namespace EliteSportsAcademy.Controllers
             }
 
             // Fetch classes where InstructorEmail matches
-            var myClasses = _context.classes
+            var myClasses = _context.Classes
                 .Where(c => c.InstructorEmail == instructorEmail)
                 .Select(c => new ClassViewModel
                 {

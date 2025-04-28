@@ -87,7 +87,7 @@ namespace EliteSportsAcademy.Controllers
 
         public async Task<IActionResult> ManageClasses()
         {
-            var classes = await _context.classes
+            var classes = await _context.Classes
                 .Select(c => new ManageClassesViewModel
                 {
                     Id = c.Id,
@@ -108,7 +108,7 @@ namespace EliteSportsAcademy.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeClassStatus(int id, string status)
         {
-            var classItem = await _context.classes.FindAsync(id);
+            var classItem = await _context.Classes.FindAsync(id);
             if (classItem == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace EliteSportsAcademy.Controllers
         [HttpPost]
         public async Task<IActionResult> SendFeedback(int id, string feedback)
         {
-            var classItem = await _context.classes.FindAsync(id);
+            var classItem = await _context.Classes.FindAsync(id);
             if (classItem == null)
             {
                 return NotFound();

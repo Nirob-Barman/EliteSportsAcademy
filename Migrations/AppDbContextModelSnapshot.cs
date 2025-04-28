@@ -56,7 +56,7 @@ namespace EliteSportsAcademy.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("classes");
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -107,8 +107,8 @@ namespace EliteSportsAcademy.Migrations
                         new
                         {
                             Id = "4",
-                            Name = "User",
-                            NormalizedName = "USER"
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
                         });
                 });
 
