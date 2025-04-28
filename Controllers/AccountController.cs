@@ -38,7 +38,8 @@ namespace EliteSportsAcademy.Controllers
                     UserName = model.Username,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
-                    IsAgree = model.IsAgree
+                    IsAgree = model.IsAgree,
+                    PhotoURL = model.PhotoURL,
                 };
 
                 // Add user to the database
@@ -46,7 +47,7 @@ namespace EliteSportsAcademy.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddToRoleAsync(user, "Student");
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     // Redirect to the home page or dashboard

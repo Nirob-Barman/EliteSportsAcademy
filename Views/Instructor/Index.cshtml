@@ -1,0 +1,39 @@
+﻿@model List<EliteSportsAcademy.ViewModel.Instructor.InstructorViewModel>
+
+@{
+    ViewData["Title"] = "Our Instructors";
+    Layout = "~/Views/Shared/Home/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <h1 class="text-center mb-5">Meet Our Instructors</h1>
+
+    <div class="row justify-content-center">
+        @foreach (var instructor in Model)
+        {
+            <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="@(!string.IsNullOrEmpty(instructor.PhotoURL) ? instructor.PhotoURL : "/images/default-profile.png")"
+                                 alt="@instructor.Name"
+                                 class="rounded-circle me-3"
+                                 style="width: 50px; height: 50px; object-fit: cover;" />
+
+                            <div>
+                                <h5 class="card-title mb-0">@instructor.Name</h5>
+                                <small class="text-muted">@instructor.Email</small>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto">
+                            <a asp-action="InstructorClasses" asp-route-email="@instructor.Email" class="btn btn-primary btn-sm mt-3">
+                                See Classes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

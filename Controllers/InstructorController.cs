@@ -13,10 +13,37 @@ namespace EliteSportsAcademy.Controllers
     public class InstructorController : Controller
     {
         private readonly AppDbContext _context;
-        public InstructorController(AppDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public InstructorController(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
+        {
+            var users = _userManager.Users.ToList();
+            var userList = new List<InstructorViewModel>();
+
+            foreach (var user in users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("Instructor"))
+                {
+                    userList.Add(new InstructorViewModel
+                    {
+                        Name = user.UserName,
+                        Email = user.Email,
+                        PhotoURL = user.PhotoURL
+                    });
+                }
+            }
+            return View(userList);
+        }
+
         public IActionResult Dashboard()
         {
             return View();

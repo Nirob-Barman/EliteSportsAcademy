@@ -1,6 +1,9 @@
 using System.Diagnostics;
 using EliteSportsAcademy.Models;
+using EliteSportsAcademy.Models.Account;
+using EliteSportsAcademy.ViewModel.Instructor;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EliteSportsAcademy.Controllers
@@ -8,23 +11,46 @@ namespace EliteSportsAcademy.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
         {
-            //var a = 3;
-            //var b = 0;
-            //var c = a / b;
             return View();
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Instructors()
+        {
+            var users = _userManager.Users.ToList();
+            var userList = new List<InstructorViewModel>();
+
+            foreach (var user in users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("Instructor"))
+                {
+                    userList.Add(new InstructorViewModel
+                    {
+                        Name = user.UserName,
+                        Email = user.Email,
+                        PhotoURL = user.PhotoURL
+                    });
+                }
+            }
+            return View(userList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
