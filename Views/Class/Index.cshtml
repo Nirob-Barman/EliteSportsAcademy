@@ -1,0 +1,45 @@
+﻿@model List<EliteSportsAcademy.ViewModel.Instructor.ClassViewModel>
+
+@{
+    ViewData["Title"] = "Classes Page";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Classes Page</h2>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var cls in Model)
+        {
+            <div class="col">
+                <div class="card h-100 @(cls.AvailableSeats == 0 ? "bg-danger bg-opacity-25" : "bg-white")">
+                    <img src="@cls.ClassImage" class="card-img-top" alt="@cls.ClassName" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@cls.ClassName</h5>
+                        <p class="card-text text-muted mb-1">Instructor: @cls.InstructorName</p>
+                        <p class="card-text text-muted mb-1">Available Seats: @cls.AvailableSeats</p>
+                        <p class="card-text text-muted mb-3">Price: $@cls.Price</p>
+
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            @* Check if user role is Student (needs to be handled in controller or viewbag) *@
+                            if (User.IsInRole("Student") && cls.AvailableSeats > 0)
+                            {
+                                <a href="#" class="btn btn-primary w-100 mt-auto">Select</a>
+                            }
+                            else if (cls.AvailableSeats == 0)
+                            {
+                                <p class="text-danger fw-bold">No available seats</p>
+                            }
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-danger w-100 mt-auto">
+                                Enroll
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

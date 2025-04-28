@@ -24,7 +24,7 @@
                     <a class="nav-link text-dark" asp-area="" asp-controller="Instructor" asp-action="Index">Instructors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Classes" asp-action="Index">Classes</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Class" asp-action="Index">Classes</a>
                 </li>
                 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                 {
