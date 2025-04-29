@@ -9,27 +9,24 @@
     <div class="text-center mb-4">
         <h1 class="display-5">Sign Up</h1>
     </div>
-    <form id="registerForm" asp-action="Register" asp-controller="Account" method="post" class="space-y-4">
+    <form id="registerForm" action="/Account/Register" method="post" class="space-y-4">
         <div class="row g-3">
             <!-- First Name -->
             <div class="col-md-6">
-                <label asp-for="FirstName" class="form-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label for="FirstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="FirstName" name="FirstName" required />
             </div>
 
             <!-- Last Name -->
             <div class="col-md-6">
-                <label asp-for="LastName" class="form-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label for="LastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="LastName" name="LastName" required />
             </div>
 
             <!-- Username -->
             <div class="col-md-6">
-                <label asp-for="Username" class="form-label"></label>
-                <input asp-for="Username" class="form-control" placeholder="Enter your username" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <label for="Username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="Username" name="Username" placeholder="Enter your username" required />
             </div>
 
             <!-- Email -->
@@ -67,9 +64,10 @@
             <div class="col-md-6">
                 <label for="gender" class="form-label">Gender</label>
                 <select class="form-select" id="gender" name="gender" required>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                 </select>
             </div>
 
@@ -89,9 +87,8 @@
 
             <!-- Agreement Checkbox -->
             <div class="mb-3 form-check">
-                <input asp-for="IsAgree" class="form-check-input" />
-                <label asp-for="IsAgree" class="form-check-label"></label>
-                <span asp-validation-for="IsAgree" class="text-danger"></span>
+                <input type="checkbox" class="form-check-input" id="IsAgree" name="IsAgree" required />
+                <label for="IsAgree" class="form-check-label">I agree to the terms and conditions</label>
             </div>
         </div>
 
@@ -104,7 +101,7 @@
         <div class="text-center mt-4">
             <p class="small text-muted">
                 Already have an account?
-                <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
+                <a href="/Account/Login" class="text-decoration-none">Login</a>
             </p>
         </div>
     </form>

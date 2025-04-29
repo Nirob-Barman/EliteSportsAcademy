@@ -38,6 +38,8 @@ namespace EliteSportsAcademy.Controllers
                     UserName = model.Username,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
+                    Gender = model.Gender,
+                    Address = model.Address,
                     IsAgree = model.IsAgree,
                     PhotoURL = model.PhotoURL,
                 };
