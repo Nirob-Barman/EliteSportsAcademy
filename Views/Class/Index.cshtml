@@ -24,7 +24,14 @@
                             @* Check if user role is Student (needs to be handled in controller or viewbag) *@
                             if (User.IsInRole("Student") && cls.AvailableSeats > 0)
                             {
-                                <a href="#" class="btn btn-primary w-100 mt-auto">Select</a>
+                                if (cls.IsSelected)
+                                {
+                                    <button class="btn btn-success w-100 mt-auto" disabled>Selected</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary w-100 mt-auto select-btn" data-class-id="@cls.Id">Select</button>
+                                }
                             }
                             else if (cls.AvailableSeats == 0)
                             {
@@ -43,3 +50,45 @@
         }
     </div>
 </div>
+
+
+
+@section Scripts {
+
+    @Html.AntiForgeryToken()
+
+    <script>
+        $(document).ready(function () {
+            $('.select-btn').click(function () {
+                var button = $(this);
+                var classId = button.data('class-id');
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                debugger
+                $.ajax({
+                    url: '/Student/SelectedClasses',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: token,
+                        classId: classId
+                    },
+                    success: function (response) {
+                        alert('Class selected successfully!');
+
+                        button.prop('disabled', true)
+                              .removeClass('btn-primary')
+                              .addClass('btn-success')
+                              .text('Selected');
+
+                        // Optionally update Available Seats visually
+                        var seatsElement = $('#seats-' + classId);
+                        var seats = parseInt(seatsElement.text());
+                        seatsElement.text(seats - 1);
+                    },
+                    error: function () {
+                        alert('Failed to select class. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+}

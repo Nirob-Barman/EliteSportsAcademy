@@ -1,0 +1,31 @@
+﻿@model List<EliteSportsAcademy.Models.Student.EnrolledClass>
+
+@{
+    ViewData["Title"] = "Enrolled Classes";
+    Layout = "~/Views/Shared/DashBoard/_StudentLayout.cshtml";
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">You are not enrolled in any classes yet.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var enrolledClass in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@enrolledClass.Class!.ClassName</h5>
+                        <p class="card-text">@enrolledClass.Class.AvailableSeats</p>
+
+                        <div class="mt-auto">
+                            <span class="badge bg-success">Enrolled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

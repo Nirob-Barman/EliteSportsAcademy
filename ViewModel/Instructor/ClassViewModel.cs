@@ -4,6 +4,7 @@ namespace EliteSportsAcademy.ViewModel.Instructor
 {
     public class ClassViewModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Class name is required")]
         public string? ClassName { get; set; }
 
@@ -26,5 +27,6 @@ namespace EliteSportsAcademy.ViewModel.Instructor
         public decimal Price { get; set; }
         public string? Status { get; set; }
         public string? Feedback { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

@@ -1,0 +1,37 @@
+﻿@model List<EliteSportsAcademy.Models.Student.SelectedClass>
+
+@{
+    ViewData["Title"] = "Selected Classes";
+    Layout = "~/Views/Shared/DashBoard/_StudentLayout.cshtml";
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">You have not selected any classes yet.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var selectedClass in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@selectedClass.Class!.ClassName</h5>
+                        <p class="card-text">@selectedClass.Class.AvailableSeats</p>
+
+                        <div class="mt-auto">
+                            <form method="post" asp-action="PayForClass" asp-route-selectedClassId="@selectedClass.Id" class="d-inline">
+                                <button type="submit" class="btn btn-success btn-sm">Pay</button>
+                            </form>
+
+                            <form method="post" asp-action="DeleteSelectedClass" asp-route-selectedClassId="@selectedClass.Id" class="d-inline ms-2">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
