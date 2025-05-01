@@ -1,4 +1,5 @@
-﻿using EliteSportsAcademy.Models.Account;
+﻿using System.Reflection.Emit;
+using EliteSportsAcademy.Models.Account;
 using EliteSportsAcademy.Models.Instructor;
 using EliteSportsAcademy.Models.Student;
 using Microsoft.AspNetCore.Identity;
@@ -48,6 +49,13 @@ namespace EliteSportsAcademy.Data
                     NormalizedName = "STUDENT"
                 }
             );
+
+
+            builder.Entity<Class>()
+            .HasOne(c => c.Instructor)
+            .WithMany()
+            .HasForeignKey(c => c.InstructorId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

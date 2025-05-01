@@ -42,11 +42,9 @@ namespace EliteSportsAcademy.Migrations
                     b.Property<string>("Feedback")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InstructorEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InstructorName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -55,6 +53,8 @@ namespace EliteSportsAcademy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InstructorId");
 
                     b.ToTable("Classes");
                 });
@@ -370,6 +370,17 @@ namespace EliteSportsAcademy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("EliteSportsAcademy.Models.Instructor.Class", b =>
+                {
+                    b.HasOne("EliteSportsAcademy.Models.Account.ApplicationUser", "Instructor")
+                        .WithMany()
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Instructor");
                 });
 
             modelBuilder.Entity("EliteSportsAcademy.Models.Student.EnrolledClass", b =>
