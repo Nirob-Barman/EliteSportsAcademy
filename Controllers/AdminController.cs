@@ -88,6 +88,7 @@ namespace EliteSportsAcademy.Controllers
         public async Task<IActionResult> ManageClasses()
         {
             var classes = await _context.Classes
+                .Include(c => c.Instructor)
                 .Select(c => new ManageClassesViewModel
                 {
                     Id = c.Id,
@@ -95,6 +96,8 @@ namespace EliteSportsAcademy.Controllers
                     ClassImage = c.ClassImage,
                     //InstructorName = c.InstructorName,
                     //InstructorEmail = c.InstructorEmail,
+                    InstructorName = c.Instructor != null ? c.Instructor.UserName : "No Instructor",
+                    InstructorEmail = c.Instructor != null ? c.Instructor.Email : "No Email",
                     AvailableSeats = c.AvailableSeats,
                     Price = c.Price,
                     Status = c.Status,
