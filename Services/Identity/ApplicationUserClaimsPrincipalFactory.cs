@@ -20,6 +20,13 @@ namespace EliteSportsAcademy.Services.Identity
             identity.AddClaim(new Claim("Email", user.Email ?? ""));
             identity.AddClaim(new Claim("FirstName", user.FirstName ?? ""));
             identity.AddClaim(new Claim("LastName", user.LastName ?? ""));
+
+            var roles = await UserManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
             return identity;
         }
     }
