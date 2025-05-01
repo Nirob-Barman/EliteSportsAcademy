@@ -20,43 +20,52 @@
     @*     <div class="alert alert-success">@TempData["Success"]</div> *@
     @* } *@
 
-    <table class="table table-striped mt-4">
-        <thead class="table-dark">
-            <tr>
-                <th>Email</th>
-                <th>Current Role</th>
-                <th>Change Role</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        @* @foreach (var (user, userRoles) in Model) *@
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Email</td>
-                @* <td>@(userRoles.FirstOrDefault() ?? "No Role")</td> *@
-                <td>@(user.Roles!.FirstOrDefault() ?? "No Role")</td>
-                <td>
-                    <form asp-action="ChangeUserRole" asp-controller="Admin" method="post" class="d-flex gap-2">
-                        <input type="hidden" name="userId" value="@user.Id" />
-                        <select class="form-select" name="newRole" required>
-                            <option disabled selected>Select Role</option>
-                            @foreach (var role in roles!)
-                            {
-                                <option value="@role.Name">@role.Name</option>
-                            }
-                        </select>
-                        <button type="submit" class="btn btn-primary">Change</button>
-                    </form>
-                </td>
-                <td>
-                    <!-- Optionally: Add Delete, Block, View Profile buttons here -->
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Email</th>
+                    <th>Current Role</th>
+                    <th>Change Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @* @foreach (var (user, userRoles) in Model) *@
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Email</td>
+                        @* <td>@(userRoles.FirstOrDefault() ?? "No Role")</td> *@
+                        <td>@(user.Roles!.FirstOrDefault() ?? "No Role")</td>
+                        <td>
+                            <form asp-action="ChangeUserRole" asp-controller="Admin" method="post" class="d-flex gap-2">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <select class="form-select" name="newRole" required>
+                                    <option disabled selected>Select Role</option>
+                                    @foreach (var role in roles!)
+                                    {
+                                        <option value="@role.Name">@role.Name</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-primary">Change</button>
+                            </form>
+                        </td>
+                        <td>
+                            <!-- Optionally: Add Delete, Block, View Profile buttons here -->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info mt-4 text-center">
+            No users found.
+        </div>
+    }
 </div>
 
 
