@@ -99,26 +99,35 @@ namespace EliteSportsAcademy.Controllers
 
                         if (result.Succeeded)
                         {
-                            var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
-                            var identity = (ClaimsIdentity)userPrincipal.Identity!;
-                            // Check if email claim already exists
-                            if (!identity.HasClaim(c => c.Type == ClaimTypes.Email))
-                            {
-                                identity.AddClaim(new Claim(ClaimTypes.Email, user.Email ?? ""));
-                            }
+                            //var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
+                            //var identity = (ClaimsIdentity)userPrincipal.Identity!;
+                            //// Check if email claim already exists
+                            //if (!identity.HasClaim(c => c.Type == ClaimTypes.Email))
+                            //{
+                            //    identity.AddClaim(new Claim(ClaimTypes.Email, user.Email ?? ""));
+                            //}
 
-                            await _signInManager.Context.SignInAsync(IdentityConstants.ApplicationScheme, userPrincipal);
+                            //await _signInManager.Context.SignInAsync(IdentityConstants.ApplicationScheme, userPrincipal);
                             // Redirect to the home page or the intended page
                             return RedirectToAction("Index", "Home");
                         }
-                        // If the password is incorrect
-                        ModelState.AddModelError(string.Empty, "Incorrect password!");
+                        else if (result.IsLockedOut)
+                        {
+                            ModelState.AddModelError(string.Empty, "Your account is locked out. Please try again later.");
+                        }
+                        else if (result.IsNotAllowed)
+                        {
+                            ModelState.AddModelError(string.Empty, "You are not allowed to log in. Please confirm your email.");
+                        }
                     }
                     else
                     {
-                        // If the email does not exist
-                        ModelState.AddModelError(string.Empty, "Email does not exist!");
+                        ModelState.AddModelError(nameof(model.Password), "Incorrect password.");
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(model.Email), "No account found with this email.");
                 }
             }
             // If we got this far, something failed; redisplay the form

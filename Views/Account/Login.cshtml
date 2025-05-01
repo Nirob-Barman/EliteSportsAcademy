@@ -14,6 +14,9 @@
                     <form asp-action="Login" asp-controller="Account" method="post">
                         @* <input type="hidden" asp-for="ReturnUrl" /> *@
 
+                        <!-- Show validation summary -->
+                        @* <div asp-validation-summary="All" class="text-danger mb-3"></div> *@
+
                         <!-- Email -->
                         <div class="mb-3">
                             <label asp-for="Email" class="form-label"></label>
