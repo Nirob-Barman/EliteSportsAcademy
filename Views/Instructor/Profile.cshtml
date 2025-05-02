@@ -2,18 +2,11 @@
 
 @{
     ViewData["Title"] = "Instructor Profile";
-    Layout = "~/Views/Shared/DashBoard/_InstructorLayout.cshtml";  // Assuming your layout file is set like this
+    Layout = "~/Views/Shared/DashBoard/_InstructorLayout.cshtml";
 }
 
 <div class="container">
     <h2 class="mb-4">Instructor Profile</h2>
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
-        </div>
-    }
 
     <div class="mb-3 text-center">
         @if (!string.IsNullOrEmpty(Model.PhotoURL))
@@ -53,13 +46,31 @@
             <input type="file" class="form-control" asp-for="Photo" accept="image/*" />
         </div>
 
-        @* @if (!string.IsNullOrEmpty(Model.PhotoURL)) *@
-        @* { *@
-        @*     <div class="mb-3"> *@
-        @*         <img src="@Model.PhotoURL" alt="Profile Photo" class="img-thumbnail" style="max-width: 200px;" /> *@
-        @*     </div> *@
-        @* } *@
-
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {            
+            var successMessage = '@TempData["Success"]';
+            // var successMessage = @Html.Raw(Json.Serialize(TempData["Success"]));
+            // var successMessage = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["Success"]));
+
+            if (successMessage) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: successMessage,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    // timerProgressBar: true
+                });
+            }
+        });
+
+    </script>
+}
