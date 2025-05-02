@@ -97,6 +97,17 @@ namespace EliteSportsAcademy.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 
+            var classEntity = await _context.Classes.FindAsync(classId);
+            if (classEntity == null)
+                return NotFound();
+
+            if (classEntity.AvailableSeats <= 0)
+                return BadRequest(new { message = "No available seats." });
+
+            bool alreadySelected = await _context.SelectedClasses.AnyAsync(s => s.StudentId == user.Id && s.ClassId == classId);
+            if (alreadySelected)
+                return BadRequest(new { message = "You have already selected this class." });
+
             var selectedClass = new SelectedClass
             {
                 ClassId = classId,
@@ -104,6 +115,9 @@ namespace EliteSportsAcademy.Controllers
             };
 
             _context.SelectedClasses.Add(selectedClass);
+
+            // Reduce available seats
+            classEntity.AvailableSeats -= 1;
             await _context.SaveChangesAsync();
 
             //return RedirectToAction("SelectedClasses");
@@ -138,9 +152,13 @@ namespace EliteSportsAcademy.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteSelectedClass(int selectedClassId)
         {
-            var selectedClass = await _context.SelectedClasses.FindAsync(selectedClassId);
+            //var selectedClass = await _context.SelectedClasses.FindAsync(selectedClassId);
+            var selectedClass = await _context.SelectedClasses
+                .Include(sc => sc.Class) // Ensure we load the related class
+                .FirstOrDefaultAsync(sc => sc.Id == selectedClassId);
             if (selectedClass != null)
             {
+                selectedClass.Class!.AvailableSeats += 1;
                 _context.SelectedClasses.Remove(selectedClass);
                 await _context.SaveChangesAsync();
             }

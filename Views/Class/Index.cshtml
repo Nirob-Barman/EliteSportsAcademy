@@ -95,18 +95,9 @@
                             title: 'Success!',
                             text: 'Class selected successfully.',
                             confirmButtonColor: '#3085d6'
-                        });
-
-
-                        button.prop('disabled', true)
-                              .removeClass('btn-primary')
-                              .addClass('btn-success')
-                              .text('Selected');
-
-                        // Optionally update Available Seats visually
-                        var seatsElement = $('#seats-' + classId);
-                        var seats = parseInt(seatsElement.text());
-                        seatsElement.text(seats - 1);
+                            }).then(() => {
+                                location.reload();
+                            });;
                     },
                     error: function () {
                         // alert('Failed to select class. Please try again.');
