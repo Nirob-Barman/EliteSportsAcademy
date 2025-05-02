@@ -8,8 +8,9 @@ namespace EliteSportsAcademy.ViewModel.Instructor
         [Required(ErrorMessage = "Class name is required")]
         public string? ClassName { get; set; }
 
-        [Required(ErrorMessage = "Class image URL is required")]
-        public string? ClassImage { get; set; }
+        public IFormFile? ClassImageFile { get; set; }
+        //[Required(ErrorMessage = "Class image URL is required")]
+        public string? ClassImagePath { get; set; }
 
         [Required(ErrorMessage = "Instructor name is required")]
         public string? InstructorName { get; set; }

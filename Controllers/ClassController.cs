@@ -34,7 +34,7 @@ namespace EliteSportsAcademy.Controllers
                 {
                     Id = c.Id,
                     ClassName = c.ClassName,
-                    ClassImage = c.ClassImage,
+                    ClassImagePath = c.ClassImage,
                     //InstructorName = c.InstructorName,
                     //InstructorEmail = c.InstructorEmail,
                     InstructorName = c.Instructor != null ? $"{c.Instructor.FirstName} {c.Instructor.LastName}" : "N/A",
@@ -71,7 +71,7 @@ namespace EliteSportsAcademy.Controllers
                 {
                     Id = c.Id,
                     ClassName = c.ClassName,
-                    ClassImage = c.ClassImage,
+                    ClassImagePath = c.ClassImage,
                     //InstructorName = c.InstructorName,
                     //InstructorEmail = c.InstructorEmail,
                     InstructorName = c.Instructor != null ? $"{c.Instructor.FirstName} {c.Instructor.LastName}" : "N/A",

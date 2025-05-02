@@ -64,7 +64,7 @@ namespace EliteSportsAcademy.Controllers
                 .Select(c => new ClassViewModel
                 {
                     ClassName = c.ClassName,
-                    ClassImage = c.ClassImage,
+                    ClassImagePath = c.ClassImage,
                     InstructorName = instructor.UserName,
                     InstructorEmail = instructor.Email,
                     AvailableSeats = c.AvailableSeats,
@@ -95,13 +95,45 @@ namespace EliteSportsAcademy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddClass(ClassViewModel model)
         {
+            if (model.ClassImageFile == null || model.ClassImageFile.Length == 0)
+            {
+                ModelState.AddModelError("ClassImageFile", "Please upload a class image.");
+            }
             if (ModelState.IsValid)
             {
+                string? imagePath = null;
+                if (model.ClassImageFile != null && model.ClassImageFile.Length > 0)
+                {
+                    var extension = Path.GetExtension(model.ClassImageFile.FileName).ToLower();
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+                    if (!allowedExtensions.Contains(extension))
+                    {
+                        ModelState.AddModelError("ClassImageFile", "Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+                        return View(model);
+                    }
+
+                    var fileName = $"{Guid.NewGuid()}{extension}";
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/Instructor/ClassImages");
+                    if (!Directory.Exists(uploadPath))
+                        Directory.CreateDirectory(uploadPath);
+
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ClassImageFile.CopyToAsync(stream);
+                    }
+
+                    imagePath = "/uploads/Instructor/ClassImages/" + fileName;
+                }
+
                 // Map ViewModel to Entity (if needed)
                 var newClass = new Class
                 {
                     ClassName = model.ClassName,
-                    ClassImage = model.ClassImage,
+                    //ClassImage = model.ClassImagePath,
+                    ClassImage = imagePath,
                     InstructorId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                     //InstructorName = model.InstructorName,
                     //InstructorEmail = model.InstructorEmail,
@@ -117,6 +149,15 @@ namespace EliteSportsAcademy.Controllers
                 return RedirectToAction(nameof(AddClass));
                 //return RedirectToAction(nameof(MyClasses));
             }
+            else
+            {
+                var allErrors = ModelState
+                    .Where(m => m.Value!.Errors.Count > 0)
+                    .Select(m => new {
+                        Field = m.Key,
+                        Errors = m.Value!.Errors.Select(e => e.ErrorMessage)
+                    });
+            }            
 
             // If validation fails, redisplay the form
             return View(model);
@@ -153,7 +194,7 @@ namespace EliteSportsAcademy.Controllers
                 .Select(c => new ClassViewModel
                 {
                     ClassName = c.ClassName,
-                    ClassImage = c.ClassImage,
+                    ClassImagePath = c.ClassImage,
                     //InstructorName = c.InstructorName,
                     //InstructorEmail = c.InstructorEmail,
                     InstructorName = instructor!.UserName,
