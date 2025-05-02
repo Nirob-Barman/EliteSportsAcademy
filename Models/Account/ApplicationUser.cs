@@ -10,6 +10,6 @@ namespace EliteSportsAcademy.Models.Account
         public string? Gender { get; set; }
 
         public string? Address { get; set; }
-        public bool IsAgree { get; set; }
+        public bool IsAgreedToTerms { get; set; }
     }
 }

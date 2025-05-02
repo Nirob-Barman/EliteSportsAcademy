@@ -30,6 +30,34 @@ namespace EliteSportsAcademy.Controllers
         {
             if (ModelState.IsValid)
             {
+                string photoFileName = null!;
+                if (model.Photo != null && model.Photo.Length > 0)
+                {
+                    var extension = Path.GetExtension(model.Photo.FileName);
+                    // Optionally: validate extension
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    if (!allowedExtensions.Contains(extension.ToLower()))
+                    {
+                        ModelState.AddModelError("Photo", "Only image files (.jpg, .png, .gif) are allowed.");
+                        return View("Register", model);
+                    }
+
+                    // Create a unique file name
+                    photoFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.Photo.FileName);
+
+                    // Define the path to save the file (e.g., wwwroot/uploads/Account)
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/Account");
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+
+                    var filePath = Path.Combine(uploadsFolder, photoFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(stream);
+                    }
+                }
+
                 // Create a new user
                 var user = new ApplicationUser
                 {
@@ -40,8 +68,9 @@ namespace EliteSportsAcademy.Controllers
                     PhoneNumber = model.PhoneNumber,
                     Gender = model.Gender,
                     Address = model.Address,
-                    IsAgree = model.IsAgree,
-                    PhotoURL = model.PhotoURL,
+                    IsAgreedToTerms = model.IsAgreedToTerms,
+                    //PhotoURL = model.PhotoURL,
+                    PhotoURL = photoFileName != null ? "/uploads/Account/" + photoFileName : null,
                 };
 
                 // Add user to the database

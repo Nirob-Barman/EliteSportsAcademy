@@ -9,7 +9,7 @@
     <div class="text-center mb-4">
         <h1 class="display-5">Sign Up</h1>
     </div>
-    <form id="registerForm" action="/Account/Register" method="post" class="space-y-4">
+    <form id="registerForm" action="/Account/Register" method="post" enctype="multipart/form-data" class="space-y-4">
         @Html.AntiForgeryToken()
         <div class="row g-3">
             <!-- First Name -->
@@ -63,7 +63,8 @@
             <!-- Photo URL -->
             <div class="col-md-6">
                 <label for="photoURL" class="form-label">Photo URL</label>
-                <input type="url" class="form-control" id="photoURL" name="photoURL" placeholder="Enter photo URL" />
+                @* <input type="url" class="form-control" id="photoURL" name="photoURL" placeholder="Enter photo URL" /> *@
+                <input type="file" class="form-control" id="Photo" name="Photo" accept="image/*" />
                 <small class="text-danger"></small>
                 @Html.ValidationMessageFor(m => m.PhotoURL, "", new { @class = "text-danger" })
             </div>
@@ -99,9 +100,9 @@
             <!-- Agreement Checkbox -->
             <div class="mb-3 form-check">
                 @* <input type="checkbox" class="form-check-input" id="IsAgree" name="IsAgree" required /> *@
-                @Html.CheckBoxFor(m => m.IsAgree, new { @class = "form-check-input" })
+                @Html.CheckBoxFor(m => m.IsAgreedToTerms, new { @class = "form-check-input" })
                 <label for="IsAgree" class="form-check-label">I agree to the terms and conditions</label>
-                @Html.ValidationMessageFor(m => m.IsAgree, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.IsAgreedToTerms, "", new { @class = "text-danger" })
             </div>
         </div>
 

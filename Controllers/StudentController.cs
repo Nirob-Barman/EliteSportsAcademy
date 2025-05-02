@@ -184,9 +184,52 @@ namespace EliteSportsAcademy.Controllers
             var student = await _userManager.FindByIdAsync(studentId);
             if (student == null) return RedirectToAction("Login", "Account");
 
+            if (model.Photo != null && model.Photo.Length > 0)
+            {
+                var extension = Path.GetExtension(model.Photo.FileName);
+                // Optionally: validate extension
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                if (!allowedExtensions.Contains(extension.ToLower()))
+                {
+                    ModelState.AddModelError("Photo", "Only image files (.jpg, .png, .gif) are allowed.");
+                    return View("Profile", model);
+                }
+
+                // Delete the old photo if it exists
+                if (!string.IsNullOrEmpty(student.PhotoURL))
+                {
+                    var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", student.PhotoURL.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                // Create unique file name
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.Photo.FileName);
+                //var fileName = Guid.NewGuid().ToString() + extension;
+                // Define upload folder
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/Account");
+
+                // Ensure folder exists
+                //if (!Directory.Exists(uploadsFolder))
+                //    Directory.CreateDirectory(uploadsFolder);
+
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                // Save the file
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.Photo.CopyToAsync(fileStream);
+                }
+
+                // Update PhotoURL (accessible via browser)
+                student.PhotoURL = "/uploads/Account/" + fileName;
+            }
+
             student.UserName = model.UserName;
             student.Email = model.Email;
-            student.PhotoURL = model.PhotoURL;
+            //student.PhotoURL = model.PhotoURL;
             student.FirstName = model.FirstName;
             student.LastName = model.LastName;
 

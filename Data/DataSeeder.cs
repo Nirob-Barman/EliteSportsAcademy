@@ -65,7 +65,7 @@ namespace EliteSportsAcademy.Data
                     FirstName = firstName,
                     LastName = lastName,
                     EmailConfirmed = true,
-                    IsAgree = true
+                    IsAgreedToTerms = true
                 };
 
                 var result = await userManager.CreateAsync(user, password);

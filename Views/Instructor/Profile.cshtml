@@ -15,6 +15,17 @@
         </div>
     }
 
+    <div class="mb-3 text-center">
+        @if (!string.IsNullOrEmpty(Model.PhotoURL))
+        {
+            <img src="@Model.PhotoURL" alt="Profile Photo" class="img-thumbnail" style="max-width: 200px;" />
+        }
+        else
+        {
+            <img src="~/images/default-profile.png" alt="Default Profile" class="img-thumbnail" style="max-width: 200px;" />
+        }
+    </div>
+
     <form method="post" asp-action="UpdateProfile" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="UserName" class="form-label">Username</label>
@@ -38,8 +49,16 @@
 
         <div class="mb-3">
             <label for="PhotoURL" class="form-label">Profile Photo URL</label>
-            <input type="text" class="form-control" id="PhotoURL" name="PhotoURL" value="@Model.PhotoURL" />
+            @* <input type="text" class="form-control" id="PhotoURL" name="PhotoURL" value="@Model.PhotoURL" /> *@
+            <input type="file" class="form-control" asp-for="Photo" accept="image/*" />
         </div>
+
+        @* @if (!string.IsNullOrEmpty(Model.PhotoURL)) *@
+        @* { *@
+        @*     <div class="mb-3"> *@
+        @*         <img src="@Model.PhotoURL" alt="Profile Photo" class="img-thumbnail" style="max-width: 200px;" /> *@
+        @*     </div> *@
+        @* } *@
 
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>

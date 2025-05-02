@@ -223,11 +223,47 @@ namespace EliteSportsAcademy.Controllers
                 {
                     return RedirectToAction("Dashboard");
                 }
+                
+                if (model.Photo != null && model.Photo.Length > 0)
+                {
+                    var extension = Path.GetExtension(model.Photo!.FileName);
+                    // Optionally: validate extension
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    if (!allowedExtensions.Contains(extension.ToLower()))
+                    {
+                        ModelState.AddModelError("Photo", "Only image files (.jpg, .png, .gif) are allowed.");
+                        return View("Profile", model);
+                    }
+
+                    if (!string.IsNullOrEmpty(instructor.PhotoURL))
+                    {
+                        // Get the full path to the old photo
+                        var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", instructor.PhotoURL.TrimStart('/'));
+
+                        // Check if the file exists and delete it
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);  // Delete the old photo file
+                        }
+                    }
+
+                    var fileName = $"{Guid.NewGuid()}{extension}";
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/Account");
+
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(stream);
+                    }
+
+                    instructor.PhotoURL = "/uploads/Account/" + fileName;
+                }
 
                 // Update the instructor details
                 instructor.UserName = model.UserName;
                 instructor.Email = model.Email;
-                instructor.PhotoURL = model.PhotoURL;
+                //instructor.PhotoURL = model.PhotoURL;
                 instructor.FirstName = model.FirstName;
                 instructor.LastName = model.LastName;
 

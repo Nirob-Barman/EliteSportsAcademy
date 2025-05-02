@@ -10,7 +10,19 @@
     <div class="alert alert-success">@TempData["Success"]</div>
 }
 
-<form asp-action="UpdateProfile" method="post" class="row g-3">
+
+<div class="col-12 text-center">
+    @if (!string.IsNullOrEmpty(Model.PhotoURL))
+    {
+        <img src="@Model.PhotoURL" alt="Profile Photo" class="img-fluid rounded-circle" style="max-width: 200px; height: auto;" />
+    }
+    else
+    {
+        <img src="~/images/default-profile.png" alt="Default Profile" class="img-fluid rounded-circle" style="max-width: 200px; height: auto;" />
+    }
+</div>
+
+<form asp-action="UpdateProfile" method="post" enctype="multipart/form-data" class="row g-3">
     @Html.AntiForgeryToken()
 
     <div class="col-md-6">
@@ -39,7 +51,8 @@
 
     <div class="col-12">
         <label asp-for="PhotoURL" class="form-label">Photo URL</label>
-        <input asp-for="PhotoURL" class="form-control" />
+        @* <input asp-for="PhotoURL" class="form-control" /> *@
+        <input type="file" asp-for="Photo" class="form-control" accept="image/*" />
         <span asp-validation-for="PhotoURL" class="text-danger"></span>
     </div>
 

@@ -40,6 +40,7 @@ namespace EliteSportsAcademy.ViewModel.Account
         public string? Address { get; set; }
         [Required(ErrorMessage = "You must agree to the terms and conditions.")]
         [Display(Name = "I agree to the terms and conditions")]
-        public bool IsAgree { get; set; }
+        public bool IsAgreedToTerms { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

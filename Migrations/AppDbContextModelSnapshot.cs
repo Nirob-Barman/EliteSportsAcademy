@@ -360,7 +360,7 @@ namespace EliteSportsAcademy.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAgree")
+                    b.Property<bool>("IsAgreedToTerms")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
