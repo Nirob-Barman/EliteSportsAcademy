@@ -1,6 +1,8 @@
-﻿using EliteSportsAcademy.Data;
+﻿using System.Security.Claims;
+using EliteSportsAcademy.Data;
 using EliteSportsAcademy.Models.Account;
 using EliteSportsAcademy.Models.Student;
+using EliteSportsAcademy.ViewModel.Student;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -144,6 +146,64 @@ namespace EliteSportsAcademy.Controllers
             }
             //return RedirectToAction("Dashboard");
             return RedirectToAction("SelectedClasses");            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (studentId == null) return RedirectToAction("Login", "Account");
+
+            var student = await _userManager.FindByIdAsync(studentId);
+            if (student == null) return RedirectToAction("Login", "Account");
+
+            var model = new StudentProfileViewModel
+            {
+                UserName = student.UserName,
+                Email = student.Email,
+                PhotoURL = student.PhotoURL,
+                FirstName = student.FirstName,
+                LastName = student.LastName
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfile(StudentProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Profile", model);
+            }
+
+            var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (studentId == null) return RedirectToAction("Login", "Account");
+
+            var student = await _userManager.FindByIdAsync(studentId);
+            if (student == null) return RedirectToAction("Login", "Account");
+
+            student.UserName = model.UserName;
+            student.Email = model.Email;
+            student.PhotoURL = model.PhotoURL;
+            student.FirstName = model.FirstName;
+            student.LastName = model.LastName;
+
+            var result = await _userManager.UpdateAsync(student);
+
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "Profile updated successfully!";
+                return RedirectToAction("Profile");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View("Profile", model);
         }
 
     }
