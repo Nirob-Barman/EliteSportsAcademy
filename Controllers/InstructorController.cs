@@ -44,6 +44,42 @@ namespace EliteSportsAcademy.Controllers
             return View(userList);
         }
 
+
+        [AllowAnonymous]
+        public IActionResult InstructorClasses(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return NotFound();
+            }
+
+            var instructor = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+
+            var approvedClasses = _context.Classes
+                .Where(c => c.InstructorId == instructor.Id && c.Status == "Approved")
+                .Select(c => new ClassViewModel
+                {
+                    ClassName = c.ClassName,
+                    ClassImage = c.ClassImage,
+                    InstructorName = instructor.UserName,
+                    InstructorEmail = instructor.Email,
+                    AvailableSeats = c.AvailableSeats,
+                    Price = c.Price,
+                    Status = c.Status,
+                    Feedback = c.Feedback
+                })
+                .ToList();
+
+            ViewBag.InstructorName = instructor.UserName;
+
+            return View(approvedClasses);
+        }
+
+
         public IActionResult Dashboard()
         {
             return View();

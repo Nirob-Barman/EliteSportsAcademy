@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Classes Page";
+    Layout = "~/Views/Shared/Home/_Layout.cshtml";
 }
 
 <div class="container mt-5">
@@ -83,7 +84,15 @@
                         classId: classId
                     },
                     success: function (response) {
-                        alert('Class selected successfully!');
+                        // alert('Class selected successfully!');
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Class selected successfully.',
+                            confirmButtonColor: '#3085d6'
+                        });
+
 
                         button.prop('disabled', true)
                               .removeClass('btn-primary')
@@ -96,7 +105,13 @@
                         seatsElement.text(seats - 1);
                     },
                     error: function () {
-                        alert('Failed to select class. Please try again.');
+                        // alert('Failed to select class. Please try again.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Failed to select class. Please try again.',
+                            confirmButtonColor: '#d33'
+                        });
                     }
                 });
             });

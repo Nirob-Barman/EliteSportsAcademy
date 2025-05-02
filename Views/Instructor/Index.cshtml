@@ -16,9 +16,9 @@
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex align-items-center mb-3">
                             <img src="@(!string.IsNullOrEmpty(instructor.PhotoURL) ? instructor.PhotoURL : "/images/default-profile.png")"
-                                 alt="@instructor.Name"
-                                 class="rounded-circle me-3"
-                                 style="width: 50px; height: 50px; object-fit: cover;" />
+                            alt="@instructor.Name"
+                            class="rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
 
                             <div>
                                 <h5 class="card-title mb-0">@instructor.Name</h5>
@@ -27,9 +27,12 @@
                         </div>
 
                         <div class="mt-auto">
-                            <a asp-action="InstructorClasses" asp-route-email="@instructor.Email" class="btn btn-primary btn-sm mt-3">
-                                See Classes
-                            </a>
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="InstructorClasses" asp-route-email="@instructor.Email" class="btn btn-primary btn-sm mt-3">
+                                    See Classes
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>

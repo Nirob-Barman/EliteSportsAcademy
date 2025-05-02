@@ -1,0 +1,33 @@
+﻿@model List<EliteSportsAcademy.ViewModel.Instructor.ClassViewModel>
+
+@{
+    ViewData["Title"] = "Classes by " + ViewBag.InstructorName;
+    Layout = "~/Views/Shared/Home/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Classes by @ViewBag.InstructorName</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">This instructor has no approved classes at the moment.</div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var cls in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="@cls.ClassImage" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                        <div class="card-body">
+                            <h5 class="card-title">@cls.ClassName</h5>
+                            <p>Available Seats: @cls.AvailableSeats</p>
+                            <p>Price: $@cls.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
