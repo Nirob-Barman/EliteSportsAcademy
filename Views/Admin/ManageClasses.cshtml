@@ -7,10 +7,10 @@
 
 <h2 class="text-2xl font-semibold mb-4">Manage Classes</h2>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
+@* @if (TempData["Success"] != null) *@
+@* { *@
+@*     <div class="alert alert-success">@TempData["Success"]</div> *@
+@* } *@
 
 <div class="overflow-x-auto">
     <table class="table-auto w-full border">
@@ -44,13 +44,15 @@
                         <form asp-action="ChangeClassStatus" method="post" class="inline">
                             <input type="hidden" name="id" value="@cls.Id" />
                             <input type="hidden" name="status" value="approved" />
-                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                            @* <button type="submit" class="btn btn-success btn-sm">Approve</button> *@
+                            <button type="submit" class="btn btn-success btn-sm" @(cls.Status == "approved" ? "disabled" : "")>Approve</button>
                         </form>
 
                         <form asp-action="ChangeClassStatus" method="post" class="inline">
                             <input type="hidden" name="id" value="@cls.Id" />
                             <input type="hidden" name="status" value="denied" />
-                            <button type="submit" class="btn btn-danger btn-sm">Deny</button>
+                            @* <button type="submit" class="btn btn-danger btn-sm">Deny</button> *@
+                            <button type="submit" class="btn btn-danger btn-sm" @(cls.Status == "denied" ? "disabled" : "")>Deny</button>
                         </form>
 
                         <!-- Feedback Modal Button -->
@@ -93,6 +95,24 @@
 
 @section Scripts {
     <script>
+
+        $(document).ready(function () {
+            var successMessage = '@TempData["Success"]';
+            // var successMessage = @Html.Raw(Json.Serialize(TempData["Success"]));
+            // var successMessage = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["Success"]));
+
+            if (successMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: successMessage,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }
+        });
+
         function openFeedbackModalFromButton(button) {
             var feedbackButton = $(button);
             var id = feedbackButton.data('id');
