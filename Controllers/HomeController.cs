@@ -31,6 +31,11 @@ namespace EliteSportsAcademy.Controllers
             return View();
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Instructors()
         {
