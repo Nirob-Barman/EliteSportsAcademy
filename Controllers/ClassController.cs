@@ -29,6 +29,7 @@ namespace EliteSportsAcademy.Controllers
             {
                 var xclasses = await _context.Classes
                 .Where(c => c.Status == "approved") // show only approved classes
+                .Include(c => c.Instructor)
                 .Select(c => new ClassViewModel
                 {
                     Id = c.Id,
@@ -36,6 +37,7 @@ namespace EliteSportsAcademy.Controllers
                     ClassImage = c.ClassImage,
                     //InstructorName = c.InstructorName,
                     //InstructorEmail = c.InstructorEmail,
+                    InstructorName = c.Instructor != null ? $"{c.Instructor.FirstName} {c.Instructor.LastName}" : "N/A",
                     AvailableSeats = c.AvailableSeats,
                     Price = c.Price,
                     Status = c.Status,
@@ -64,6 +66,7 @@ namespace EliteSportsAcademy.Controllers
 
             var classes = await _context.Classes
                 .Where(c => c.Status == "approved") // show only approved classes
+                .Include(c => c.Instructor)
                 .Select(c => new ClassViewModel
                 {
                     Id = c.Id,
@@ -71,6 +74,7 @@ namespace EliteSportsAcademy.Controllers
                     ClassImage = c.ClassImage,
                     //InstructorName = c.InstructorName,
                     //InstructorEmail = c.InstructorEmail,
+                    InstructorName = c.Instructor != null ? $"{c.Instructor.FirstName} {c.Instructor.LastName}" : "N/A",
                     AvailableSeats = c.AvailableSeats,
                     Price = c.Price,
                     Status = c.Status,

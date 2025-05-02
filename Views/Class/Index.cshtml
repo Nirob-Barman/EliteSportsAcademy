@@ -9,7 +9,7 @@
 
     @if (Model != null && Model.Any())
     {
-        <h2 class="text-center mb-4">Classes Page</h2>
+        <h2 class="text-center mb-4">Explore Our Classes</h2>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             @foreach (var cls in Model)
@@ -34,7 +34,7 @@
                                     }
                                     else if (cls.IsSelected)
                                     {
-                                        <button class="btn btn-success w-100 mt-auto" disabled>Selected</button>
+                                        <button class="btn btn-secondary w-100 mt-auto" disabled>Selected</button>
                                     }
                                     else
                                     {
