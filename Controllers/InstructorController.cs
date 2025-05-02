@@ -193,6 +193,7 @@ namespace EliteSportsAcademy.Controllers
                 //.Where(c => c.InstructorEmail == instructorEmail)
                 .Select(c => new ClassViewModel
                 {
+                    Id = c.Id,
                     ClassName = c.ClassName,
                     ClassImagePath = c.ClassImage,
                     //InstructorName = c.InstructorName,
@@ -208,6 +209,82 @@ namespace EliteSportsAcademy.Controllers
 
             return View(myClasses);
         }
+
+        [HttpGet]
+        public IActionResult EditClass(int id)
+        {
+            var classItem = _context.Classes.FirstOrDefault(c => c.Id == id);
+            if (classItem == null) return NotFound();
+
+            var viewModel = new ClassEditViewModel
+            {
+                Id = classItem.Id,
+                ClassName = classItem.ClassName,
+                ClassImagePath = classItem.ClassImage,
+                AvailableSeats = classItem.AvailableSeats,
+                Price = classItem.Price,
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditClass(ClassEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var classItem = _context.Classes.FirstOrDefault(c => c.Id == model.Id);
+            if (classItem == null) return NotFound();
+
+            classItem.ClassName = model.ClassName;
+            classItem.AvailableSeats = model.AvailableSeats;
+            classItem.Price = model.Price;
+
+
+            // Handle image upload
+            if (model.ClassImageFile != null)
+            {
+                var extension = Path.GetExtension(model.ClassImageFile.FileName).ToLower();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("ClassImageFile", "Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+                    return View(model);
+                }
+
+                // Delete the old image file if it exists
+                if (!string.IsNullOrEmpty(classItem.ClassImage))
+                {
+                    var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", classItem.ClassImage.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath); // Remove the old image
+                    }
+                }
+
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ClassImageFile.FileName);
+                //var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/Instructor/ClassImages");
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "Instructor", "ClassImages");
+                var filePath = Path.Combine(uploadPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ClassImageFile.CopyToAsync(stream);
+                }
+
+                // Save relative path to database
+                classItem.ClassImage = "/uploads/Instructor/ClassImages/" + fileName;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("MyClasses");
+        }
+
+
 
 
         // GET: Instructor Profile

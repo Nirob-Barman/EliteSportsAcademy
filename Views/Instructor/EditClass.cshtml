@@ -1,0 +1,52 @@
+﻿@model EliteSportsAcademy.ViewModel.Instructor.ClassEditViewModel
+@{
+    ViewData["Title"] = "Edit Class";
+    Layout = "~/Views/Shared/DashBoard/_InstructorLayout.cshtml";
+}
+
+<div class="container mt-4">
+    @if (!string.IsNullOrEmpty(Model.ClassImagePath))
+    {
+        <div class="row mb-4">
+            <div class="col-12 col-md-4 text-center">
+                <label class="form-label">Current Image</label>
+                <img src="@Model.ClassImagePath" alt="Current Class Image" class="img-thumbnail" style="max-height:250px; object-fit:cover;">
+            </div>
+        </div>
+    }
+
+    <h2 class="text-primary text-center mb-4">Edit Class</h2>
+
+    <form asp-action="EditClass" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="ClassName" class="form-label"></label>
+            <input asp-for="ClassName" class="form-control" />
+            <span asp-validation-for="ClassName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="AvailableSeats" class="form-label"></label>
+            <input asp-for="AvailableSeats" class="form-control" />
+            <span asp-validation-for="AvailableSeats" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ClassImageFile" class="form-label">Class Image</label>
+            <input asp-for="ClassImageFile" class="form-control" type="file" />
+            <span asp-validation-for="ClassImageFile" class="text-danger"></span>
+        </div>
+
+        <!-- Add more fields as needed -->
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a asp-action="MyClasses" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
