@@ -46,11 +46,21 @@ namespace EliteSportsAcademy.Controllers
                 return View(xclasses);
             }
 
+            
+            //Get all class IDs the user has selected but not enrolled yet:
             var selectedClassIds = await _context.SelectedClasses
                 .Where(sc => sc.StudentId == user.Id)
                 .Select(sc => sc.ClassId)
                 .ToListAsync();
 
+            //Get all class IDs the user is enrolled in:
+            var enrolledClassIds = await _context.EnrolledClasses
+                .Where(ec => ec.StudentId == user.Id)
+                .Select(ec => ec.ClassId)
+                .ToListAsync();
+
+            //Combine both lists into a single set:
+            //var combinedClassIds = selectedClassIds.Union(enrolledClassIds).ToHashSet();
 
             var classes = await _context.Classes
                 .Where(c => c.Status == "approved") // show only approved classes
@@ -65,7 +75,10 @@ namespace EliteSportsAcademy.Controllers
                     Price = c.Price,
                     Status = c.Status,
                     Feedback = c.Feedback,
-                    IsSelected = selectedClassIds.Contains(c.Id)
+                    //IsSelected = selectedClassIds.Contains(c.Id)
+                    //IsSelected = combinedClassIds.Contains(c.Id)
+                    IsSelected = selectedClassIds.Contains(c.Id),
+                    IsEnrolled = enrolledClassIds.Contains(c.Id)
                 })
                 .ToListAsync();
 

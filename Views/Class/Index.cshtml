@@ -28,7 +28,11 @@
                                 @* Check if user role is Student (needs to be handled in controller or viewbag) *@
                                 if (User.IsInRole("Student") && cls.AvailableSeats > 0)
                                 {
-                                    if (cls.IsSelected)
+                                    if (cls.IsEnrolled)
+                                    {
+                                        <button class="btn btn-success w-100 mt-auto" disabled>Enrolled</button>
+                                    }
+                                    else if (cls.IsSelected)
                                     {
                                         <button class="btn btn-success w-100 mt-auto" disabled>Selected</button>
                                     }

@@ -28,5 +28,6 @@ namespace EliteSportsAcademy.ViewModel.Instructor
         public string? Status { get; set; }
         public string? Feedback { get; set; }
         public bool IsSelected { get; set; }
+        public bool IsEnrolled { get; set; }
     }
 }
