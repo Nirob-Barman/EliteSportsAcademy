@@ -64,6 +64,11 @@ namespace EliteSportsAcademy.Controllers
             }
 
             var currentRoles = await _userManager.GetRolesAsync(user);
+            if (currentRoles.Contains(newRole))
+            {
+                TempData["Error"] = "User already has this role.";
+                return RedirectToAction(nameof(ManageUsers));
+            }
 
             // Remove all current roles
             var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
