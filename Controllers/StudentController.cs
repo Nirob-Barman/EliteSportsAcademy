@@ -18,9 +18,31 @@ namespace EliteSportsAcademy.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            return View();
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var student = await _userManager.FindByEmailAsync(email);
+            if (student == null)
+            {
+                return NotFound("Student not found");
+            }
+
+
+            var selectedCount = await _context.SelectedClasses.CountAsync(s => s.StudentId == student.Id && s.PaymentStatus == "Pending");
+            var enrolledCount = await _context.EnrolledClasses.CountAsync(e => e.StudentId == student.Id);
+            var totalAvailableClasses = await _context.Classes.CountAsync(c => c.AvailableSeats > 0 && c.Status == "approved");
+            var dashboardVM = new StudentDashboardViewModel
+            {
+                SelectedCount = selectedCount,
+                EnrolledCount = enrolledCount,
+                TotalAvailableClasses = totalAvailableClasses
+            };
+
+            return View(dashboardVM);
         }
 
         //public async Task<IActionResult> Dashboard()

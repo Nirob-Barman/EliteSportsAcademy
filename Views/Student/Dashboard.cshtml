@@ -1,81 +1,72 @@
 ﻿@{
     Layout = "~/Views/Shared/DashBoard/_StudentLayout.cshtml";
     ViewData["Title"] = "DashBoard";
-    // var selectedClasses = ViewBag.SelectedClasses as List<EliteSportsAcademy.Models.Student.SelectedClass>;
-    // var enrolledClasses = ViewBag.EnrolledClasses as List<EliteSportsAcademy.Models.Student.EnrolledClass>;
 }
 
-<p>This is your management panel.</p>
+<div class="container">
+    <div class="text-center mb-5">
+        <h1 class="display-5 text-primary">Welcome, @User.Identity!.Name!</h1>
+        <p class="lead text-muted">Here's a snapshot of your learning journey at Elite Sports Academy.</p>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Selected Classes</h6>
+                    <h3 class="text-warning">@Model.SelectedCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Enrolled Classes</h6>
+                    <h3 class="text-success">@Model.EnrolledCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Available Classes</h6>
+                    <h3 class="text-primary">@Model.TotalAvailableClasses</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row g-4 mt-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-list-check fa-2x text-warning mb-2"></i>
+                    <h6>Selected Classes</h6>
+                    <a asp-action="SelectedClasses" class="btn btn-outline-warning btn-sm mt-2">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-book fa-2x text-success mb-2"></i>
+                    <h6>Enrolled Classes</h6>
+                    <a asp-action="EnrolledClasses" class="btn btn-outline-success btn-sm mt-2">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-user fa-2x text-primary mb-2"></i>
+                    <h6>Profile</h6>
+                    <a asp-action="Profile" class="btn btn-outline-primary btn-sm mt-2">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-@* <div class="container mt-5"> *@
-@*     <h2 class="mb-4">My Enrolled Classes</h2> *@
-@*     @if (enrolledClasses!.Count == 0) *@
-
-@*     { *@
-@*         <p class="text-danger">You have not enrolled in any classes yet.</p> *@
-@*     } *@
-@*     else *@
-@*     { *@
-@*         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"> *@
-@*             @foreach (var cls in enrolledClasses) *@
-@*             { *@
-@*                 <div class="col"> *@
-@*                     <div class="card h-100"> *@
-@*                         <img src="@cls.Class!.ClassImage" class="card-img-top" alt="@cls.Class.ClassName" style="height:200px; object-fit:cover;" /> *@
-@*                         <div class="card-body"> *@
-@*                             <h5 class="card-title">@cls.Class.ClassName</h5> *@
-@*                             <p class="card-text">Instructor: @cls.Class.InstructorName</p> *@
-@*                             <p class="card-text">Available Seats: @cls.Class.AvailableSeats</p> *@
-@*                             <p class="card-text">Price: $@cls.Class.Price</p> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             } *@
-@*         </div> *@
-@*     } *@
-
-@*     <h2 class="mt-5 mb-4">My Selected Classes</h2> *@
-@*     @if (selectedClasses!.Count == 0) *@
-@*     { *@
-@*         <p class="text-danger">You have not selected any classes yet.</p> *@
-@*     } *@
-@*     else *@
-@*     { *@
-@*         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"> *@
-@*             @foreach (var selected in selectedClasses) *@
-@*             { *@
-@*                 <div class="col"> *@
-@*                     <div class="card h-100"> *@
-@*                         <img src="@selected.Class.ClassImage" class="card-img-top" alt="@selected.Class.ClassName" style="height:200px; object-fit:cover;" /> *@
-@*                         <div class="card-body"> *@
-@*                             <h5 class="card-title">@selected.Class.ClassName</h5> *@
-@*                             <p class="card-text">Instructor: @selected.Class.InstructorName</p> *@
-@*                             <p class="card-text">Available Seats: @selected.Class.AvailableSeats</p> *@
-@*                             <p class="card-text">Price: $@selected.Class.Price</p> *@
-
-@*                             <div class="d-flex justify-content-between mt-3"> *@
-@*                                 <form asp-action="DeleteSelectedClass" method="post"> *@
-@*                                     <input type="hidden" name="selectedClassId" value="@selected.Id" /> *@
-@*                                     <button type="submit" class="btn btn-danger">Delete</button> *@
-@*                                 </form> *@
-
-@*                                 @if (selected.PaymentStatus == "Paid") *@
-@*                                 { *@
-@*                                     <button class="btn btn-success" disabled>Paid</button> *@
-@*                                 } *@
-@*                                 else *@
-@*                                 { *@
-@*                                     <form asp-action="PayForClass" method="post"> *@
-@*                                         <input type="hidden" name="selectedClassId" value="@selected.Id" /> *@
-@*                                         <button type="submit" class="btn btn-primary">Pay</button> *@
-@*                                     </form> *@
-@*                                 } *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             } *@
-@*         </div> *@
-@*     } *@
-@* </div> *@

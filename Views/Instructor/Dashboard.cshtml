@@ -3,4 +3,49 @@
     ViewData["Title"] = "DashBoard";
 }
 
-<p>This is your management panel.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="text-primary display-4">Welcome to Your Dashboard</h1>
+            <p class="lead">Manage your classes, track feedback, and update your profile.</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Add Class -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-plus-circle fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Add New Class</h5>
+                    <p class="card-text">Create and submit a new class offering.</p>
+                    <a asp-controller="Instructor" asp-action="AddClass" class="btn btn-outline-success">Add Class</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Classes -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-list-ul fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">My Classes</h5>
+                    <p class="card-text">View, edit, or track the status of your submitted classes.</p>
+                    <a asp-controller="Instructor" asp-action="MyClasses" class="btn btn-outline-primary">View Classes</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-user fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Your Profile</h5>
+                    <p class="card-text">Update your personal and contact information.</p>
+                    <a asp-controller="Instructor" asp-action="Profile" class="btn btn-outline-info">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
