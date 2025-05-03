@@ -13,18 +13,18 @@ namespace EliteSportsAcademy.Data
             //string superAdminEmail = "superadmin@elitesports.com";
             //string superAdminPassword = "@bul.789";
 
-            string[] roles = { "SuperAdmin", "Admin", "Instructor", "Student" };
+            //string[] roles = { "SuperAdmin", "Admin", "Instructor", "Student" };
 
             // Ensure roles exist (in case migration not run yet)
             //if (!await roleManager.RoleExistsAsync("Admin"))
             //    await roleManager.CreateAsync(new IdentityRole("Admin"));
-            foreach (var role in roles)
-            {
-                if (!await roleManager.RoleExistsAsync(role))
-                {
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
+            //foreach (var role in roles)
+            //{
+            //    if (!await roleManager.RoleExistsAsync(role))
+            //    {
+            //        await roleManager.CreateAsync(new IdentityRole(role));
+            //    }
+            //}
 
             //// Check if user exists
             //var existingUser = await userManager.FindByEmailAsync(superAdminEmail);
