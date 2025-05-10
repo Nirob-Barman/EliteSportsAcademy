@@ -81,14 +81,14 @@ dotnet run
 5. **Access the Application**
    Visit `http://localhost:5000` in your browser.
 
-## Seed Default Roles and Users
+<!--## Seed Default Roles and Users
 
 To seed default roles and a sample admin user, use the following command:
 
 ```bash
 dotnet run seed
 ```
-
+-->
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
